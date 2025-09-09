@@ -1,0 +1,44 @@
+import createShip from "./ship";
+
+export default function createGameboard() {
+  const gameboard = Array(10)
+    .fill(null)
+    .map(() => Array(10).fill(null));
+
+  const missedShots = [];
+
+  const placeShip = (x, y, shipLength) => {
+    gameboard[x][y] = createShip(shipLength);
+  };
+
+  const receiveAttack = (x, y) => {
+    if (gameboard[x][y] !== null) {
+      gameboard[x][y].hit();
+    } else {
+      missedShots.push([x, y]);
+    }
+  };
+
+  const checkAllShipsSunk = () => {
+    const result = gameboard
+      .flat()
+      .filter((item) => item !== null)
+      .every((item) => item.isSunk() === true);
+
+    return result;
+  };
+
+  return {
+    get gameboard() {
+      return gameboard;
+    },
+
+    get missedShots() {
+      return missedShots;
+    },
+
+    placeShip,
+    receiveAttack,
+    checkAllShipsSunk,
+  };
+}
