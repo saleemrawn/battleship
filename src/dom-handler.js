@@ -60,3 +60,15 @@ export function disableGameboard(playerID) {
 export function disableButton(button) {
   button.setAttribute("disabled", "");
 }
+
+export function showMissedShots(player, playerID) {
+  player.gameboard.missedShots.forEach((coord) => {
+    document.querySelector(
+      `.board-square[data-player-id="${playerID}"][data-x="${coord[0]}"][data-y="${coord[1]}"]`
+    ).innerHTML = `<span class="mdi--checkbox-blank-circle-outline"></span>`;
+  });
+}
+
+export function showHitMark(button) {
+  button.innerHTML = `<span class="mdi--close"></span>`;
+}
