@@ -40,3 +40,23 @@ export function renderGameboardShips(gameboard, playerID) {
     }
   }
 }
+
+export function enableGameboard(playerID) {
+  const buttons = document.querySelectorAll(
+    `.board-square[data-player-id="${playerID}"]`
+  );
+
+  buttons.forEach((button) => button.removeAttribute("disabled"));
+}
+
+export function disableGameboard(playerID) {
+  const buttons = document.querySelectorAll(
+    `.board-square[data-player-id="${playerID}"]`
+  );
+
+  buttons.forEach((button) => button.setAttribute("disabled", ""));
+}
+
+export function disableButton(button) {
+  button.setAttribute("disabled", "");
+}
