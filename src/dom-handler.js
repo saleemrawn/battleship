@@ -1,4 +1,4 @@
-export function renderGameboardToDOM(gameboard, playerID) {
+export function renderGameboard(gameboard, playerID) {
   const mainContainer = document.querySelector("main");
 
   mainContainer.insertAdjacentHTML(
@@ -19,13 +19,24 @@ export function renderGameboardToDOM(gameboard, playerID) {
       row
         .map(
           (elem, j) =>
-            `<button class="board-square${
-              elem !== null ? " ship" : ""
-            }" data-player-id="${playerID}" data-x="${i}" data-y="${j}"></button>`
+            `<button class="board-square" data-player-id="${playerID}" data-x="${i}" data-y="${j}"></button>`
         )
         .join("")
     )
     .join("");
 
   playerContainer.insertAdjacentHTML("beforeend", html);
+}
+
+export function renderGameboardShips(gameboard, playerID) {
+  for (let i = 0; i < gameboard.length; i++) {
+    for (let j = 0; j < gameboard[i].length; j++) {
+      if (gameboard[i][j] !== null) {
+        let boardButton = document.querySelector(
+          `.board-square[data-player-id="${playerID}"][data-x="${i}"][data-y="${j}"]`
+        );
+        boardButton.classList.add("ship");
+      }
+    }
+  }
 }
