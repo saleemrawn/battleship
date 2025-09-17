@@ -19,7 +19,7 @@ export function renderGameboard(gameboard, playerID) {
       row
         .map(
           (elem, j) =>
-            `<button class="board-square" data-player-id="${playerID}" data-x="${i}" data-y="${j}"></button>`
+            `<button class="board-square" data-player-id="${playerID}" data-x="${j}" data-y="${i}"></button>`
         )
         .join("")
     )
