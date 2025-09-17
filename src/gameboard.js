@@ -7,8 +7,17 @@ export default function createGameboard() {
 
   const missedShots = [];
 
-  const placeShip = (x, y, shipLength) => {
-    gameboard[x][y] = createShip(shipLength);
+  const placeShip = (x, y, shipLength, direction) => {
+    const ship = createShip(shipLength);
+    const validPositions = getValidPositions(
+      x,
+      y,
+      shipLength,
+      gameboard,
+      direction
+    );
+
+    validPositions.forEach((pos) => (gameboard[pos[0]][pos[1]] = ship));
   };
 
   const receiveAttack = (x, y) => {
@@ -41,4 +50,62 @@ export default function createGameboard() {
     receiveAttack,
     checkAllShipsSunk,
   };
+}
+
+function getValidPositions(startX, startY, shipLength, gameboard, direction) {
+  while (startX <= gameboard.length && startY <= gameboard.length) {
+    let placement = [];
+    let isValid = true;
+    let candidateX = 0;
+    let candidateY = 0;
+
+    for (let i = 0; i < shipLength; i++) {
+      if (direction === "horizontal") {
+        candidateX = startX + i;
+        candidateY = startY;
+      }
+
+      if (direction === "vertical") {
+        candidateX = startX;
+        candidateY = startY + i;
+      }
+
+      if (candidateX > gameboard.length || candidateY > gameboard.length) {
+        isValid = false;
+        break;
+      }
+
+      if (gameboard[candidateX][candidateY] !== null) {
+        isValid = false;
+        break;
+      }
+
+      placement.push([candidateX, candidateY]);
+      isValid = true;
+    }
+
+    if (isValid === true) {
+      return placement;
+    }
+
+    if (direction === "horizontal") {
+      return getValidPositions(
+        (startX = startX + 1),
+        startY,
+        shipLength,
+        gameboard,
+        direction
+      );
+    } else if (direction === "vertical") {
+      return getValidPositions(
+        startX,
+        (startY = startY + 1),
+        shipLength,
+        gameboard,
+        direction
+      );
+    }
+  }
+
+  return null;
 }
