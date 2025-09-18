@@ -1,4 +1,4 @@
-import { generateRandomCoordinate } from "./css/helpers";
+import { generateRandomCoordinate } from "./helpers";
 import {
   showMissedShots,
   showHitMark,
