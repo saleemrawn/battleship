@@ -73,3 +73,31 @@ export function showHitMark(button) {
   const el = button.target instanceof Element ? button.target : button;
   el.innerHTML = `<span class="mdi--close"></span>`;
 }
+
+export function addGameOverModal(playerID) {
+  const body = document.querySelector("body");
+  body.insertAdjacentHTML(
+    "beforebegin",
+    `
+    <dialog id="gameOverDialog">
+      <div class="dialog-text">
+        <p>Game Over!</p>
+        <p>${playerID === 1 ? "Computer" : "Player"} wins!</p>
+      </div>
+      <div class="dialog-buttons">
+        <button id="dialogPlayAgain">Play Again</button>
+      </div>
+    </dialog>
+    `
+  );
+}
+
+export function showGameOverModal() {
+  const dialog = document.querySelector("#gameOverDialog");
+  dialog.showModal();
+}
+
+export function closeGameOverModal() {
+  const dialog = document.querySelector("#gameOverDialog");
+  dialog.close();
+}

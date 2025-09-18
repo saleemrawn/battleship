@@ -1,5 +1,11 @@
 import { generateRandomCoordinate } from "./css/helpers";
-import { showMissedShots, showHitMark, disableButton } from "./dom-handler";
+import {
+  showMissedShots,
+  showHitMark,
+  disableButton,
+  addGameOverModal,
+  showGameOverModal,
+} from "./dom-handler";
 
 const computerVisitedPositions = [];
 
@@ -51,15 +57,15 @@ function handleComputerEvent(playerOneObj) {
     return handleComputerEvent(playerOneObj);
   }
 
-  if (playerOneObj.gameboard.checkAllShipsSunk() === true) {
-    handleGameOverEvent(boardButton);
-  }
-
   computerVisitedPositions.push([x, y]);
 
   const boardButton = document.querySelector(
     `.board-square[data-player-id="1"][data-x="${x}"][data-y="${y}"]`
   );
+
+  if (playerOneObj.gameboard.checkAllShipsSunk() === true) {
+    handleGameOverEvent(boardButton);
+  }
 
   setTimeout(() => {
     playerOneObj.gameboard.receiveAttack(x, y);
@@ -70,4 +76,10 @@ function handleComputerEvent(playerOneObj) {
 
     showMissedShots(playerOneObj, 1);
   }, 2500);
+}
+
+function handleGameOverEvent(button) {
+  const el = button.target instanceof Element ? button.target : button;
+  addGameOverModal(el.getAttribute("data-player-id"));
+  showGameOverModal();
 }
