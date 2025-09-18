@@ -70,5 +70,6 @@ export function showMissedShots(player, playerID) {
 }
 
 export function showHitMark(button) {
-  button.target.innerHTML = `<span class="mdi--close"></span>`;
+  const el = button.target instanceof Element ? button.target : button;
+  el.innerHTML = `<span class="mdi--close"></span>`;
 }
