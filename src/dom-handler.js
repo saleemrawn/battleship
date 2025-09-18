@@ -58,7 +58,7 @@ export function disableGameboard(playerID) {
 }
 
 export function disableButton(button) {
-  button.setAttribute("disabled", "");
+  button.target.setAttribute("disabled", "");
 }
 
 export function showMissedShots(player, playerID) {
@@ -70,5 +70,5 @@ export function showMissedShots(player, playerID) {
 }
 
 export function showHitMark(button) {
-  button.innerHTML = `<span class="mdi--close"></span>`;
+  button.target.innerHTML = `<span class="mdi--close"></span>`;
 }
