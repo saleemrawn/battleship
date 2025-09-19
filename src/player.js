@@ -1,8 +1,8 @@
 import createGameboard from "./gameboard";
 
 export default function createPlayer(playerType) {
-  const type = playerType;
-  const gameboard = createGameboard();
+  let type = playerType;
+  let gameboard = createGameboard();
 
   return {
     get type() {
@@ -11,6 +11,14 @@ export default function createPlayer(playerType) {
 
     get gameboard() {
       return gameboard;
+    },
+
+    set type(val) {
+      type = val;
+    },
+
+    set gameboard(val) {
+      gameboard = val;
     },
   };
 }
