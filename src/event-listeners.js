@@ -17,6 +17,10 @@ export function loadEventListeners(playerOneObj, playerTwoObj) {
       handlePlayerEvent(event, playerOneObj, playerTwoObj);
     }
   );
+
+  addGlobalEventListener("mouseup", `.board-square[data-player-id="2"]`, () => {
+    handleComputerEvent(playerOneObj);
+  });
 }
 
 function addGlobalEventListener(type, selector, callback, parent = document) {
@@ -27,7 +31,7 @@ function addGlobalEventListener(type, selector, callback, parent = document) {
   });
 }
 
-function handlePlayerEvent(button, playerOneObj, playerTwoObj) {
+function handlePlayerEvent(button, playerTwoObj) {
   const x = parseInt(button.target.getAttribute("data-x"));
   const y = parseInt(button.target.getAttribute("data-y"));
 
@@ -43,7 +47,6 @@ function handlePlayerEvent(button, playerOneObj, playerTwoObj) {
 
   disableButton(button);
   showMissedShots(playerTwoObj, 2);
-  handleComputerEvent(playerOneObj);
 }
 
 function handleComputerEvent(playerOneObj) {
