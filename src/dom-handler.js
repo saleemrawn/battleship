@@ -101,3 +101,7 @@ export function closeGameOverModal() {
   const dialog = document.querySelector("#gameOverDialog");
   dialog.close();
 }
+
+export function clearGameboards() {
+  document.querySelector("main").innerHTML = "";
+}

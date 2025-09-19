@@ -5,10 +5,12 @@ import {
   disableButton,
   addGameOverModal,
   showGameOverModal,
+  closeGameOverModal,
+  clearGameboards,
 } from "./dom-handler";
 import createPlayer from "./player";
 
-const computerVisitedPositions = [];
+let computerVisitedPositions = [];
 let player = createPlayer(0);
 let computer = createPlayer(0);
 
@@ -24,6 +26,10 @@ export function loadEventListeners() {
   addGlobalEventListener("mouseup", `.board-square[data-player-id="2"]`, () => {
     handleComputerEvent(player);
   });
+
+  addGlobalEventListener("click", "#dialogPlayAgain", () =>
+    handlePlayAgainEvent(player, computer)
+  );
 }
 
 function addGlobalEventListener(type, selector, callback, parent = document) {
@@ -88,4 +94,21 @@ function handleGameOverEvent(button) {
   const el = button.target instanceof Element ? button.target : button;
   addGameOverModal(el.getAttribute("data-player-id"));
   showGameOverModal();
+}
+
+function handlePlayAgainEvent() {
+  resetPlayers(player, computer);
+  resetComputerVisitedPositions();
+  clearGameboards();
+  startGame();
+  closeGameOverModal();
+}
+
+function resetPlayers() {
+  player = createPlayer(0);
+  computer = createPlayer(0);
+}
+
+function resetComputerVisitedPositions() {
+  computerVisitedPositions = [];
 }
