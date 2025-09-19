@@ -6,20 +6,23 @@ import {
   addGameOverModal,
   showGameOverModal,
 } from "./dom-handler";
+import createPlayer from "./player";
 
 const computerVisitedPositions = [];
+let player = createPlayer(0);
+let computer = createPlayer(0);
 
-export function loadEventListeners(playerOneObj, playerTwoObj) {
+export function loadEventListeners() {
   addGlobalEventListener(
     "click",
     `.board-square[data-player-id="2"]`,
     (event) => {
-      handlePlayerEvent(event, playerOneObj, playerTwoObj);
+      handlePlayerEvent(event, computer);
     }
   );
 
   addGlobalEventListener("mouseup", `.board-square[data-player-id="2"]`, () => {
-    handleComputerEvent(playerOneObj);
+    handleComputerEvent(player);
   });
 }
 
@@ -31,33 +34,33 @@ function addGlobalEventListener(type, selector, callback, parent = document) {
   });
 }
 
-function handlePlayerEvent(button, playerTwoObj) {
+function handlePlayerEvent(button, computer) {
   const x = parseInt(button.target.getAttribute("data-x"));
   const y = parseInt(button.target.getAttribute("data-y"));
 
-  playerTwoObj.gameboard.receiveAttack(x, y);
+  computer.gameboard.receiveAttack(x, y);
 
-  if (playerTwoObj.gameboard.checkAllShipsSunk() === true) {
+  if (computer.gameboard.checkAllShipsSunk() === true) {
     handleGameOverEvent(button);
   }
 
-  if (playerTwoObj.gameboard.gameboard[x][y] !== null) {
+  if (computer.gameboard.gameboard[x][y] !== null) {
     showHitMark(button);
   }
 
   disableButton(button);
-  showMissedShots(playerTwoObj, 2);
+  showMissedShots(computer, 2);
 }
 
-function handleComputerEvent(playerOneObj) {
-  const x = generateRandomCoordinate(playerOneObj.gameboard.gameboard.length);
-  const y = generateRandomCoordinate(playerOneObj.gameboard.gameboard.length);
+function handleComputerEvent(player) {
+  const x = generateRandomCoordinate(player.gameboard.gameboard.length);
+  const y = generateRandomCoordinate(player.gameboard.gameboard.length);
   const exists = computerVisitedPositions.some(
     ([xi, xy]) => xi === x && xy === y
   );
 
   if (exists) {
-    return handleComputerEvent(playerOneObj);
+    return handleComputerEvent(player);
   }
 
   computerVisitedPositions.push([x, y]);
@@ -66,18 +69,18 @@ function handleComputerEvent(playerOneObj) {
     `.board-square[data-player-id="1"][data-x="${x}"][data-y="${y}"]`
   );
 
-  if (playerOneObj.gameboard.checkAllShipsSunk() === true) {
+  if (player.gameboard.checkAllShipsSunk() === true) {
     handleGameOverEvent(boardButton);
   }
 
   setTimeout(() => {
-    playerOneObj.gameboard.receiveAttack(x, y);
+    player.gameboard.receiveAttack(x, y);
 
-    if (playerOneObj.gameboard.gameboard[x][y] !== null) {
+    if (player.gameboard.gameboard[x][y] !== null) {
       showHitMark(boardButton);
     }
 
-    showMissedShots(playerOneObj, 1);
+    showMissedShots(player, 1);
   }, 2500);
 }
 
