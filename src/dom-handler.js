@@ -61,10 +61,10 @@ export function disableButton(button) {
   button.target.setAttribute("disabled", "");
 }
 
-export function showMissedShots(player, playerID) {
+export function showMissedShots(player) {
   player.gameboard.missedShots.forEach((coord) => {
     document.querySelector(
-      `.board-square[data-player-id="${playerID}"][data-x="${coord[0]}"][data-y="${coord[1]}"]`
+      `.board-square[data-player-id="${player.id}"][data-x="${coord[0]}"][data-y="${coord[1]}"]`
     ).innerHTML = `<span class="mdi--checkbox-blank-circle-outline"></span>`;
   });
 }

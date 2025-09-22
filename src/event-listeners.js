@@ -52,7 +52,7 @@ function handlePlayerEvent(button, computer) {
   }
 
   disableButton(button);
-  showMissedShots(computer, 2);
+  showMissedShots(computer);
 
   if (computer.gameboard.checkAllShipsSunk() === true) {
     handleGameOverEvent(button);
@@ -87,7 +87,7 @@ function handleComputerEvent(player) {
       handleGameOverEvent(boardButton);
     }
 
-    showMissedShots(player, 1);
+    showMissedShots(player);
   }, 2500);
 
   activeTimeouts.push(id);
