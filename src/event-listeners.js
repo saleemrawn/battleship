@@ -12,8 +12,8 @@ import createPlayer from "./player";
 
 let computerVisitedPositions = [];
 let activeTimeouts = [];
-let player = createPlayer(0);
-let computer = createPlayer(0);
+let player = createPlayer(1, "Player");
+let computer = createPlayer(2, "Computer");
 
 export function loadEventListeners() {
   addGlobalEventListener(
