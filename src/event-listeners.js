@@ -41,53 +41,53 @@ function addGlobalEventListener(type, selector, callback, parent = document) {
   });
 }
 
-function handlePlayerEvent(button, computer) {
+function handlePlayerEvent(button, opponent) {
   const x = parseInt(button.target.getAttribute("data-x"));
   const y = parseInt(button.target.getAttribute("data-y"));
 
-  computer.gameboard.receiveAttack(x, y);
+  opponent.gameboard.receiveAttack(x, y);
 
-  if (computer.gameboard.gameboard[x][y] !== null) {
+  if (opponent.gameboard.gameboard[x][y] !== null) {
     showHitMark(button);
   }
 
   disableButton(button);
-  showMissedShots(computer);
+  showMissedShots(opponent);
 
-  if (computer.gameboard.checkAllShipsSunk() === true) {
+  if (opponent.gameboard.checkAllShipsSunk() === true) {
     handleGameOverEvent(player.name);
   }
 }
 
-function handleComputerEvent(player) {
-  const x = generateRandomCoordinate(player.gameboard.gameboard.length);
-  const y = generateRandomCoordinate(player.gameboard.gameboard.length);
+function handleComputerEvent(opponent) {
+  const x = generateRandomCoordinate(opponent.gameboard.gameboard.length);
+  const y = generateRandomCoordinate(opponent.gameboard.gameboard.length);
   const exists = computerVisitedPositions.some(
     ([xi, xy]) => xi === x && xy === y
   );
 
   if (exists) {
-    return handleComputerEvent(player);
+    return handleComputerEvent(opponent);
   }
 
   computerVisitedPositions.push([x, y]);
 
   const boardButton = document.querySelector(
-    `.board-square[data-player-id="1"][data-x="${x}"][data-y="${y}"]`
+    `.board-square[data-player-id="${opponent.id}"][data-x="${x}"][data-y="${y}"]`
   );
 
   const id = setTimeout(() => {
-    player.gameboard.receiveAttack(x, y);
+    opponent.gameboard.receiveAttack(x, y);
 
-    if (player.gameboard.gameboard[x][y] !== null) {
+    if (opponent.gameboard.gameboard[x][y] !== null) {
       showHitMark(boardButton);
     }
 
-    if (player.gameboard.checkAllShipsSunk() === true) {
+    if (opponent.gameboard.checkAllShipsSunk() === true) {
       handleGameOverEvent(computer.name);
     }
 
-    showMissedShots(player);
+    showMissedShots(opponent);
   }, 2500);
 
   activeTimeouts.push(id);
