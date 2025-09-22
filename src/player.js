@@ -1,20 +1,20 @@
 import createGameboard from "./gameboard";
 
-export default function createPlayer(playerType) {
-  let type = playerType;
+export default function createPlayer(playerId) {
+  let id = playerId;
   let gameboard = createGameboard();
 
   return {
-    get type() {
-      return type;
+    get id() {
+      return id;
     },
 
     get gameboard() {
       return gameboard;
     },
 
-    set type(val) {
-      type = val;
+    set id(playerId) {
+      id = playerId;
     },
 
     set gameboard(val) {
