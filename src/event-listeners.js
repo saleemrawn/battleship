@@ -53,10 +53,7 @@ function handlePlayerEvent(button, opponent) {
 
   disableButton(button);
   showMissedShots(opponent);
-
-  if (opponent.gameboard.checkAllShipsSunk() === true) {
-    handleGameOverEvent(human.name);
-  }
+  checkGameWinner(human, opponent);
 }
 
 function handleComputerEvent(opponent) {
@@ -83,10 +80,7 @@ function handleComputerEvent(opponent) {
       showHitMark(boardButton);
     }
 
-    if (opponent.gameboard.checkAllShipsSunk() === true) {
-      handleGameOverEvent(computer.name);
-    }
-
+    checkGameWinner(computer, opponent);
     showMissedShots(opponent);
   }, 2500);
 
@@ -105,6 +99,12 @@ function handlePlayAgainEvent() {
   clearGameboards();
   startGame();
   closeGameOverModal();
+}
+
+function checkGameWinner(player, opponent) {
+  if (player.gameboard.checkAllShipsSunk() === true) {
+    handleGameOverEvent(opponent.name);
+  }
 }
 
 function resetPlayers() {
