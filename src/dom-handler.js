@@ -100,6 +100,7 @@ export function showGameOverModal() {
 export function closeGameOverModal() {
   const dialog = document.querySelector("#gameOverDialog");
   dialog.close();
+  dialog.remove();
 }
 
 export function clearGameboards() {
