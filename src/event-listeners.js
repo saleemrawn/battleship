@@ -12,7 +12,7 @@ import createPlayer from "./player";
 
 let computerVisitedPositions = [];
 let activeTimeouts = [];
-let player = createPlayer(1, "Player");
+let human = createPlayer(1, "Player");
 let computer = createPlayer(2, "Computer");
 
 export function loadEventListeners() {
@@ -25,11 +25,11 @@ export function loadEventListeners() {
   );
 
   addGlobalEventListener("mouseup", `.board-square[data-player-id="2"]`, () => {
-    handleComputerEvent(player);
+    handleComputerEvent(human);
   });
 
   addGlobalEventListener("click", "#dialogPlayAgain", () =>
-    handlePlayAgainEvent(player, computer)
+    handlePlayAgainEvent(human, computer)
   );
 }
 
@@ -55,7 +55,7 @@ function handlePlayerEvent(button, opponent) {
   showMissedShots(opponent);
 
   if (opponent.gameboard.checkAllShipsSunk() === true) {
-    handleGameOverEvent(player.name);
+    handleGameOverEvent(human.name);
   }
 }
 
@@ -99,7 +99,7 @@ function handleGameOverEvent(playerName) {
 }
 
 function handlePlayAgainEvent() {
-  resetPlayers(player, computer);
+  resetPlayers();
   resetComputerVisitedPositions();
   clearAllTimeouts();
   clearGameboards();
@@ -108,7 +108,7 @@ function handlePlayAgainEvent() {
 }
 
 function resetPlayers() {
-  player = createPlayer(1, "Player");
+  human = createPlayer(1, "Player");
   computer = createPlayer(2, "Computer");
 }
 
