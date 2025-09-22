@@ -109,8 +109,8 @@ function handlePlayAgainEvent() {
 }
 
 function resetPlayers() {
-  player = createPlayer(0);
-  computer = createPlayer(0);
+  player = createPlayer(1, "Player");
+  computer = createPlayer(2, "Computer");
 }
 
 function resetComputerVisitedPositions() {
