@@ -55,7 +55,7 @@ function handlePlayerEvent(button, computer) {
   showMissedShots(computer);
 
   if (computer.gameboard.checkAllShipsSunk() === true) {
-    handleGameOverEvent(button);
+    handleGameOverEvent(player.name);
   }
 }
 
@@ -84,7 +84,7 @@ function handleComputerEvent(player) {
     }
 
     if (player.gameboard.checkAllShipsSunk() === true) {
-      handleGameOverEvent(boardButton);
+      handleGameOverEvent(computer.name);
     }
 
     showMissedShots(player);
@@ -93,9 +93,8 @@ function handleComputerEvent(player) {
   activeTimeouts.push(id);
 }
 
-function handleGameOverEvent(button) {
-  const el = button.target instanceof Element ? button.target : button;
-  addGameOverModal(el.getAttribute("data-player-id"));
+function handleGameOverEvent(playerName) {
+  addGameOverModal(playerName);
   showGameOverModal();
 }
 
