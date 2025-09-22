@@ -74,7 +74,7 @@ export function showHitMark(button) {
   el.innerHTML = `<span class="mdi--close"></span>`;
 }
 
-export function addGameOverModal(playerID) {
+export function addGameOverModal(playerName) {
   const body = document.querySelector("body");
   body.insertAdjacentHTML(
     "beforebegin",
@@ -82,7 +82,7 @@ export function addGameOverModal(playerID) {
     <dialog id="gameOverDialog">
       <div class="dialog-text">
         <p>Game Over!</p>
-        <p>${playerID === 1 ? "Computer" : "Player"} wins!</p>
+        <p>${playerName} wins!</p>
       </div>
       <div class="dialog-buttons">
         <button id="dialogPlayAgain">Play Again</button>
