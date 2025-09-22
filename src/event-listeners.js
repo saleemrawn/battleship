@@ -11,6 +11,7 @@ import {
 import createPlayer from "./player";
 
 let computerVisitedPositions = [];
+let activeTimeouts = [];
 let player = createPlayer(0);
 let computer = createPlayer(0);
 
@@ -79,7 +80,7 @@ function handleComputerEvent(player) {
     handleGameOverEvent(boardButton);
   }
 
-  setTimeout(() => {
+  const id = setTimeout(() => {
     player.gameboard.receiveAttack(x, y);
 
     if (player.gameboard.gameboard[x][y] !== null) {
@@ -88,6 +89,8 @@ function handleComputerEvent(player) {
 
     showMissedShots(player, 1);
   }, 2500);
+
+  activeTimeouts.push(id);
 }
 
 function handleGameOverEvent(button) {
@@ -99,6 +102,7 @@ function handleGameOverEvent(button) {
 function handlePlayAgainEvent() {
   resetPlayers(player, computer);
   resetComputerVisitedPositions();
+  clearAllTimeouts();
   clearGameboards();
   startGame();
   closeGameOverModal();
@@ -111,4 +115,12 @@ function resetPlayers() {
 
 function resetComputerVisitedPositions() {
   computerVisitedPositions = [];
+}
+
+function clearAllTimeouts() {
+  for (const id of activeTimeouts) {
+    clearTimeout(id);
+  }
+
+  activeTimeouts = [];
 }
