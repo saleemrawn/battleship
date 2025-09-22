@@ -47,16 +47,16 @@ function handlePlayerEvent(button, computer) {
 
   computer.gameboard.receiveAttack(x, y);
 
-  if (computer.gameboard.checkAllShipsSunk() === true) {
-    handleGameOverEvent(button);
-  }
-
   if (computer.gameboard.gameboard[x][y] !== null) {
     showHitMark(button);
   }
 
   disableButton(button);
   showMissedShots(computer, 2);
+
+  if (computer.gameboard.checkAllShipsSunk() === true) {
+    handleGameOverEvent(button);
+  }
 }
 
 function handleComputerEvent(player) {
@@ -76,15 +76,15 @@ function handleComputerEvent(player) {
     `.board-square[data-player-id="1"][data-x="${x}"][data-y="${y}"]`
   );
 
-  if (player.gameboard.checkAllShipsSunk() === true) {
-    handleGameOverEvent(boardButton);
-  }
-
   const id = setTimeout(() => {
     player.gameboard.receiveAttack(x, y);
 
     if (player.gameboard.gameboard[x][y] !== null) {
       showHitMark(boardButton);
+    }
+
+    if (player.gameboard.checkAllShipsSunk() === true) {
+      handleGameOverEvent(boardButton);
     }
 
     showMissedShots(player, 1);
