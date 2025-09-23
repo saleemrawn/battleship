@@ -4,9 +4,7 @@ export function renderGameboard(gameboard, playerID) {
   mainContainer.insertAdjacentHTML(
     "beforeend",
     `
-    <div class="player-container" data-player-id="${playerID}">
-        <div class="overlay hide"></div>
-    </div>
+    <div class="player-container" data-player-id="${playerID}"></div>
     `
   );
 
