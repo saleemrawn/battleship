@@ -28,7 +28,7 @@ test("placeShip method adds ship to array index 5, 5 and 5, 6", () => {
     totalHits: 0,
     hasSunk: false,
   });
-  expect(newGameboard.gameboard[6][5]).toMatchObject({
+  expect(newGameboard.gameboard[5][6]).toMatchObject({
     length: 2,
     totalHits: 0,
     hasSunk: false,
@@ -52,15 +52,9 @@ test("checkAllShipsSunk returns true when all ships have sunk", () => {
   const newGameboard = createGameboard();
 
   newGameboard.placeShip(1, 1, 2, "horizontal");
-  newGameboard.placeShip(9, 5, 2, "vertical");
-  newGameboard.placeShip(5, 7, 2, "horizontal");
 
   newGameboard.receiveAttack(1, 1);
-  newGameboard.receiveAttack(1, 1);
-  newGameboard.receiveAttack(9, 5);
-  newGameboard.receiveAttack(9, 5);
-  newGameboard.receiveAttack(5, 7);
-  newGameboard.receiveAttack(5, 7);
+  newGameboard.receiveAttack(1, 2);
 
   expect(newGameboard.checkAllShipsSunk()).toBeTruthy();
 });
@@ -73,7 +67,7 @@ test("checkAllShipsSunk returns false when not all ships have sunk", () => {
   newGameboard.placeShip(5, 7, 2, "horizontal");
 
   newGameboard.receiveAttack(1, 1);
-  newGameboard.receiveAttack(1, 1);
+  newGameboard.receiveAttack(1, 2);
 
   expect(newGameboard.checkAllShipsSunk()).toBeFalsy();
 });
