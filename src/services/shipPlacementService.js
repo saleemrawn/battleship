@@ -1,18 +1,16 @@
 import { getPlacementStrategy } from "../domain/placement/strategies";
 
-export function createShipPlacementService(validator, renderer) {
+export function createShipPlacementService(validator) {
   return {
     placeShip(player, placement) {
       const validation = this.validatePlacement(player, placement);
+      const { start, length, orientation } = placement;
+
       if (!validation.success) {
         return validation;
       }
 
-      const { start, length, orientation } = placement;
-      const board = player.gameboard.gameboard;
-
       player.gameboard.placeShip(start.x, start.y, length, orientation);
-      renderer.renderGameboardShips(board, player.id);
 
       return { success: true };
     },

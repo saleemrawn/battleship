@@ -67,5 +67,18 @@ export function createShipPlacementUI(config = {}) {
         sq.classList.remove("ship-valid", "ship-invalid");
       });
     },
+
+    renderGameboardShips(gameboard, playerId) {
+      for (let i = 0; i < gameboard.length; i++) {
+        for (let j = 0; j < gameboard[i].length; j++) {
+          if (gameboard[i][j] !== null) {
+            let boardButton = document.querySelector(
+              `.board-square[data-player-id="${playerId}"][data-x="${j}"][data-y="${i}"]`
+            );
+            boardButton.classList.add("ship");
+          }
+        }
+      }
+    },
   };
 }

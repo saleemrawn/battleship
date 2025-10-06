@@ -17,7 +17,7 @@ beforeEach(() => {
   jest.clearAllMocks();
 
   mockButton = document.createElement("button");
-  mockPlayer = { id: 1, name: "Player", gameboard: {} };
+  mockPlayer = { id: 1, name: "Player", gameboard: { gameboard: new Array(10) } };
 
   mockService = {
     placeShip: jest.fn(),
@@ -32,6 +32,7 @@ beforeEach(() => {
     getRemainingShips: jest.fn(),
     highlightCells: jest.fn(),
     clearHighlight: jest.fn(),
+    renderGameboardShips: jest.fn(),
   };
 
   mockGameStateManager = {
@@ -71,6 +72,7 @@ describe("handleAddShip", () => {
       length: 2,
       orientation: "horizontal",
     });
+    expect(mockUi.renderGameboardShips).toHaveBeenCalledWith(expect.any(Array), 1);
     expect(mockUi.removeShipOption).toHaveBeenCalledWith(
       `<option value="2" data-ship-name="Patrol Boat">Patrol Boat (2)</option>`
     );
@@ -94,6 +96,7 @@ describe("handleAddShip", () => {
       length: 2,
       orientation: "horizontal",
     });
+    expect(mockUi.renderGameboardShips).not.toHaveBeenCalled();
     expect(mockUi.removeShipOption).not.toHaveBeenCalled();
     expect(mockGameStateManager.onAllShipsPlaced).not.toHaveBeenCalled();
   });
@@ -115,6 +118,7 @@ describe("handleAddShip", () => {
       length: 2,
       orientation: "horizontal",
     });
+    expect(mockUi.renderGameboardShips).toHaveBeenCalledWith(expect.any(Array), 1);
     expect(mockUi.removeShipOption).toHaveBeenCalledWith(
       `<option value="2" data-ship-name="Patrol Boat">Patrol Boat (2)</option>`
     );
@@ -130,6 +134,7 @@ describe("handleAddShip", () => {
 
     expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid input for ship placement");
     expect(mockService.placeShip).not.toHaveBeenCalled();
+    expect(mockUi.renderGameboardShips).not.toHaveBeenCalled();
     expect(mockUi.removeShipOption).not.toHaveBeenCalled();
   });
 
@@ -145,6 +150,7 @@ describe("handleAddShip", () => {
 
     expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid input for ship placement");
     expect(mockService.placeShip).not.toHaveBeenCalled();
+    expect(mockUi.renderGameboardShips).not.toHaveBeenCalled();
     expect(mockUi.removeShipOption).not.toHaveBeenCalled();
   });
 
@@ -160,6 +166,7 @@ describe("handleAddShip", () => {
 
     expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid input for ship placement");
     expect(mockService.placeShip).not.toHaveBeenCalled();
+    expect(mockUi.renderGameboardShips).not.toHaveBeenCalled();
     expect(mockUi.removeShipOption).not.toHaveBeenCalled();
   });
 });

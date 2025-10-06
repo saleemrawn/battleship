@@ -6,7 +6,7 @@ let mockPlayer;
 let mockPlacement;
 let mockService;
 let mockValidator;
-let mockRenderer;
+//let mockRenderer;
 let mockStrategy;
 
 beforeEach(() => {
@@ -14,11 +14,11 @@ beforeEach(() => {
   mockPlayer = { id: 1, name: "Player", gameboard: { gameboard: new Array(10), placeShip: jest.fn() } };
   mockPlacement = { start: { x: 0, y: 0 }, length: 2, orientation: "horizontal" };
   mockValidator = { isValidPlacement: jest.fn() };
-  mockRenderer = {
+  /* mockRenderer = {
     renderGameboardShips: jest.fn(),
-  };
+  }; */
 
-  mockService = createShipPlacementService(mockValidator, mockRenderer);
+  mockService = createShipPlacementService(mockValidator);
 
   mockStrategy = {
     calculatePositions: jest.fn(),
@@ -37,7 +37,7 @@ describe("placeShip", () => {
 
     expect(result).toEqual({ success: false, reason: expect.any(String) });
     expect(mockPlayer.gameboard.placeShip).not.toHaveBeenCalled();
-    expect(mockRenderer.renderGameboardShips).not.toHaveBeenCalled();
+    //expect(mockRenderer.renderGameboardShips).not.toHaveBeenCalled();
   });
 
   test("returns true if ship placement successful", () => {
@@ -49,7 +49,7 @@ describe("placeShip", () => {
 
     expect(result).toEqual({ success: true });
     expect(mockPlayer.gameboard.placeShip).toHaveBeenCalledWith(0, 0, 2, "horizontal");
-    expect(mockRenderer.renderGameboardShips).toHaveBeenCalledWith(expect.any(Array), 1);
+    //expect(mockRenderer.renderGameboardShips).toHaveBeenCalledWith(expect.any(Array), 1);
   });
 });
 

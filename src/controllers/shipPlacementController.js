@@ -10,6 +10,7 @@ export function createShipPlacementController(dependencies) {
       const ship = ui.getShipSelection();
       const orientation = ui.getOrientation();
       const coordinates = ui.getCoordinates(button);
+      const board = player.gameboard.gameboard;
 
       if (!ship || !orientation || !coordinates) {
         console.error("Invalid input for ship placement");
@@ -23,6 +24,7 @@ export function createShipPlacementController(dependencies) {
         return;
       }
 
+      ui.renderGameboardShips(board, player.id);
       ui.removeShipOption(ship.element);
 
       if (ui.getRemainingShips() === 0) {
