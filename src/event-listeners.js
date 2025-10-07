@@ -16,21 +16,15 @@ let human = createPlayer(1, "Player");
 let computer = createPlayer(2, "Computer");
 
 export function loadEventListeners() {
-  addGlobalEventListener(
-    "click",
-    `.board-square[data-player-id="2"]`,
-    (event) => {
-      handlePlayerEvent(event, computer);
-    }
-  );
+  addGlobalEventListener("click", `.board-square[data-player-id="2"]`, (event) => {
+    handlePlayerEvent(event, computer);
+  });
 
   addGlobalEventListener("mouseup", `.board-square[data-player-id="2"]`, () => {
     handleComputerEvent(human);
   });
 
-  addGlobalEventListener("click", "#dialogPlayAgain", () =>
-    handlePlayAgainEvent(human, computer)
-  );
+  addGlobalEventListener("click", "#dialogPlayAgain", () => handlePlayAgainEvent(human, computer));
 }
 
 function addGlobalEventListener(type, selector, callback, parent = document) {
@@ -59,9 +53,7 @@ function handlePlayerEvent(button, opponent) {
 function handleComputerEvent(opponent) {
   const x = generateRandomCoordinate(opponent.gameboard.gameboard.length);
   const y = generateRandomCoordinate(opponent.gameboard.gameboard.length);
-  const exists = computerVisitedPositions.some(
-    ([xi, xy]) => xi === x && xy === y
-  );
+  const exists = computerVisitedPositions.some(([xi, xy]) => xi === x && xy === y);
 
   if (exists) {
     return handleComputerEvent(opponent);
@@ -87,11 +79,6 @@ function handleComputerEvent(opponent) {
   activeTimeouts.push(id);
 }
 
-function handleGameOverEvent(playerName) {
-  addGameOverModal(playerName);
-  showGameOverModal();
-}
-
 function handlePlayAgainEvent() {
   resetPlayers();
   resetComputerVisitedPositions();
@@ -99,12 +86,6 @@ function handlePlayAgainEvent() {
   clearGameboards();
   startGame();
   closeGameOverModal();
-}
-
-function checkGameWinner(player, opponent) {
-  if (player.gameboard.checkAllShipsSunk() === true) {
-    handleGameOverEvent(opponent.name);
-  }
 }
 
 function resetPlayers() {
