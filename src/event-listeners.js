@@ -4,10 +4,10 @@ import { gameEventController } from ".";
 let human = createPlayer(1, "Player");
 let computer = createPlayer(2, "Computer");
 
-export function loadEventListeners() {
-  addGlobalEventListener("click", `.board-square[data-player-id="2"]`, (event) => {
-    gameEventController.handlePlayerEvent(human, computer, event);
-  });
+export function loadEventListeners(human, computer) {
+  addGlobalEventListener("click", `.board-square[data-player-id="2"]`, (event) =>
+    gameEventController.handlePlayerEvent(human, computer, event)
+  );
 
   addGlobalEventListener("mouseup", `.board-square[data-player-id="2"]`, () => {
     gameEventController.handleComputerEvent(human, computer);
