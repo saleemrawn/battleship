@@ -1,8 +1,4 @@
-import createPlayer from "./player";
 import { gameEventController } from ".";
-
-let human = createPlayer(1, "Player");
-let computer = createPlayer(2, "Computer");
 
 export function loadEventListeners(human, computer) {
   addGlobalEventListener("click", `.board-square[data-player-id="2"]`, (event) =>
