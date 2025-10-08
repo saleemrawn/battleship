@@ -34,15 +34,6 @@ function addGlobalEventListener(type, selector, callback, parent = document) {
   });
 }
 
-function handlePlayAgainEvent() {
-  resetPlayers();
-  resetComputerVisitedPositions();
-  clearAllTimeouts();
-  clearGameboards();
-  startGame();
-  closeGameOverModal();
-}
-
 function resetPlayers() {
   human = createPlayer(1, "Player");
   computer = createPlayer(2, "Computer");

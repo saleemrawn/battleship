@@ -53,6 +53,15 @@ export function createGameEventController(dependencies) {
       activeTimeouts.push(id);
     },
 
+    handlePlayAgainEvent() {
+      resetPlayers();
+      this.resetVisited();
+      this.clearTimeouts();
+      clearGameboards();
+      startGame();
+      closeGameOverModal();
+    },
+
     resetVisited() {
       visited = [];
     },
