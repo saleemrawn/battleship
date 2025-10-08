@@ -1,5 +1,5 @@
 export function createShipPlacementController(dependencies) {
-  const { service, ui, gameStateManager } = dependencies;
+  const { service, ui, formsUI } = dependencies;
 
   function handlePlacementError(reason) {
     console.warn(`Placement failed: ${reason}`);
@@ -28,7 +28,7 @@ export function createShipPlacementController(dependencies) {
       ui.removeShipOption(ship.element);
 
       if (ui.getRemainingShips() === 0) {
-        gameStateManager.onAllShipsPlaced(player);
+        formsUI.hideShipForm();
       }
     },
 
