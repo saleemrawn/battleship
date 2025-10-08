@@ -33,8 +33,3 @@ function addGlobalEventListener(type, selector, callback, parent = document) {
     }
   });
 }
-
-function resetPlayers() {
-  human = createPlayer(1, "Player");
-  computer = createPlayer(2, "Computer");
-}

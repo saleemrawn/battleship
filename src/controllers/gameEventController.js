@@ -54,7 +54,7 @@ export function createGameEventController(dependencies) {
     },
 
     handlePlayAgainEvent() {
-      resetPlayers();
+      this.resetPlayers();
       this.resetVisited();
       this.clearTimeouts();
       clearGameboards();
@@ -72,6 +72,16 @@ export function createGameEventController(dependencies) {
       }
 
       activeTimeouts = [];
+    },
+
+    resetPlayers(human, computer) {
+      if (!human || !computer) {
+        console.error("Invalid players");
+        return;
+      }
+
+      human = createPlayer(1, "Player");
+      computer = createPlayer(2, "Computer");
     },
   };
 }
