@@ -52,6 +52,18 @@ export function createGameEventController(dependencies) {
 
       activeTimeouts.push(id);
     },
+
+    resetVisited() {
+      visited = [];
+    },
+
+    clearTimeouts() {
+      for (const id of activeTimeouts) {
+        clearTimeout(id);
+      }
+
+      activeTimeouts = [];
+    },
   };
 }
 

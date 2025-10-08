@@ -47,15 +47,3 @@ function resetPlayers() {
   human = createPlayer(1, "Player");
   computer = createPlayer(2, "Computer");
 }
-
-function resetComputerVisitedPositions() {
-  computerVisitedPositions = [];
-}
-
-function clearAllTimeouts() {
-  for (const id of activeTimeouts) {
-    clearTimeout(id);
-  }
-
-  activeTimeouts = [];
-}
