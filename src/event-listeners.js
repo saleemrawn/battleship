@@ -1,6 +1,8 @@
 import { gameEventController } from ".";
 
 export function loadEventListeners(human, computer) {
+  window.addEventListener("load", () => gameEventController.handleGameSetup(human));
+
   addGlobalEventListener("click", `.board-square[data-player-id="2"]`, (event) =>
     gameEventController.handlePlayerEvent(human, computer, event)
   );

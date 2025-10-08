@@ -8,6 +8,12 @@ export function createGameEventController(dependencies) {
   let visited = [];
 
   return {
+    handleGameSetup(human) {
+      renderGameboard(human.gameboard.gameboard, human.id);
+      renderAddShipsForm();
+      ui.renderGameboardShips(human.gameboard.gameboard, human.id);
+    },
+
     handlePlayerEvent(human, computer, button) {
       const x = parseInt(button.target.getAttribute("data-x"));
       const y = parseInt(button.target.getAttribute("data-y"));
