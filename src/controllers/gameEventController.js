@@ -1,16 +1,68 @@
+import { disableButton, renderAddShipsForm, renderGameboard, showHitMark, showMissedShots } from "../dom-handler";
+import { createModalUI } from "../ui/modalUI";
+
 export function createGameEventController(dependencies) {
-  const { modalUI } = dependencies;
+  const { ui } = dependencies;
+
+  let activeTimeouts = [];
+  let visited = [];
 
   return {
-    checkGameWinner(player, opponent) {
-      if (opponent.gameboard.checkAllShipsSunk() === true) {
-        this.handleGameOverEvent(player);
+    handlePlayerEvent(human, computer, button) {
+      const x = parseInt(button.target.getAttribute("data-x"));
+      const y = parseInt(button.target.getAttribute("data-y"));
+      const computerBoard = computer.gameboard.gameboard;
+
+      computer.gameboard.receiveAttack(y, x);
+
+      if (computerBoard[y][x] !== null) {
+        showHitMark(button);
       }
+
+      disableButton(button);
+      showMissedShots(computer);
+      checkGameWinner(human, computer);
     },
 
-    handleGameOverEvent(player) {
-      modalUI.addGameOverModal(player);
-      modalUI.showModal();
+    handleComputerEvent(human, computer) {
+      const x = Math.floor(Math.random() * boardSize);
+      const y = Math.floor(Math.random() * boardSize);
+      const exists = visited.some(([xi, xy]) => xi === x && xy === y);
+
+      if (exists) {
+        return this.handleComputerEvent(human, computer);
+      }
+
+      visited.push([x, y]);
+
+      const boardButton = document.querySelector(
+        `.board-square[data-player-id="${human.id}"][data-x="${x}"][data-y="${y}"]`
+      );
+
+      const id = setTimeout(() => {
+        human.gameboard.receiveAttack(y, x);
+
+        if (human.gameboard.gameboard[y][x] !== null) {
+          showHitMark(boardButton);
+        }
+
+        checkGameWinner(computer, human);
+        showMissedShots(human);
+      }, 2500);
+
+      activeTimeouts.push(id);
     },
   };
+}
+
+function checkGameWinner(player, opponent) {
+  if (opponent.gameboard.checkAllShipsSunk() === true) {
+    handleGameOverEvent(player);
+  }
+}
+
+function handleGameOverEvent(player) {
+  const modalUI = createModalUI();
+  modalUI.addGameOverModal(player);
+  modalUI.showModal();
 }
