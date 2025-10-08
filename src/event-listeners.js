@@ -1,13 +1,3 @@
-import { generateRandomCoordinate } from "./helpers";
-import {
-  showMissedShots,
-  showHitMark,
-  disableButton,
-  addGameOverModal,
-  showGameOverModal,
-  closeGameOverModal,
-  clearGameboards,
-} from "./dom-handler";
 import createPlayer from "./player";
 import { gameEventController } from ".";
 
