@@ -13,7 +13,7 @@ export function loadEventListeners(human, computer) {
     gameEventController.handleComputerEvent(human, computer);
   });
 
-  addGlobalEventListener("click", "#dialogPlayAgain", () => handlePlayAgainEvent(human, computer));
+  addGlobalEventListener("click", "#dialogPlayAgain", () => gameEventController.handlePlayAgainEvent(human, computer));
 }
 
 function addGlobalEventListener(type, selector, callback, parent = document) {
