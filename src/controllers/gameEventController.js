@@ -1,15 +1,15 @@
-import { disableButton, renderAddShipsForm, renderGameboard, showHitMark, showMissedShots } from "../dom-handler";
+import { disableButton, renderAddShipsForm, showHitMark, showMissedShots } from "../dom-handler";
 import { createModalUI } from "../ui/modalUI";
 
 export function createGameEventController(dependencies) {
-  const { ui } = dependencies;
+  const { ui, gameboardUI } = dependencies;
 
   let activeTimeouts = [];
   let visited = [];
 
   return {
     handleGameSetup(human) {
-      renderGameboard(human.gameboard.gameboard, human.id);
+      gameboardUI.renderGameboard(human);
       renderAddShipsForm();
       ui.renderGameboardShips(human.gameboard.gameboard, human.id);
     },
