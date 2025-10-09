@@ -11,7 +11,7 @@ export function createGameEventController(dependencies) {
     handleGameSetup(human) {
       gameboardUI.renderGameboard(human);
       renderAddShipsForm();
-      ui.renderGameboardShips(human.gameboard.gameboard, human.id);
+      ui.renderGameboardShips(human);
     },
 
     handlePlayerEvent(human, computer, button) {

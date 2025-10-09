@@ -68,14 +68,15 @@ export function createShipPlacementUI(config = {}) {
       });
     },
 
-    renderGameboardShips(gameboard, playerId) {
-      for (let i = 0; i < gameboard.length; i++) {
-        for (let j = 0; j < gameboard[i].length; j++) {
-          if (gameboard[i][j] !== null) {
-            let boardButton = document.querySelector(
-              `.board-square[data-player-id="${playerId}"][data-x="${j}"][data-y="${i}"]`
+    renderGameboardShips(player) {
+      const board = player.gameboard.gameboard;
+      for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board[i].length; j++) {
+          if (board[i][j] !== null) {
+            let button = document.querySelector(
+              `.board-square[data-player-id="${player.id}"][data-x="${j}"][data-y="${i}"]`
             );
-            boardButton.classList.add("ship");
+            button.classList.add("ship");
           }
         }
       }

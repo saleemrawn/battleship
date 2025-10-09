@@ -10,7 +10,6 @@ export function createShipPlacementController(dependencies) {
       const ship = shipPlacementUI.getShipSelection();
       const orientation = shipPlacementUI.getOrientation();
       const coordinates = shipPlacementUI.getCoordinates(button);
-      const board = player.gameboard.gameboard;
 
       if (!ship || !orientation || !coordinates) {
         console.error("Invalid input for ship placement");
@@ -24,14 +23,14 @@ export function createShipPlacementController(dependencies) {
         return;
       }
 
-      shipPlacementUI.renderGameboardShips(board, player.id);
+      shipPlacementUI.renderGameboardShips(player);
       shipPlacementUI.removeShipOption(ship.element);
 
       if (shipPlacementUI.getRemainingShips() === 0) {
         formsUI.hideShipForm();
         gameboardUI.renderGameboard(computer);
         generator.generateRandomGameboard(computer);
-        shipPlacementUI.renderGameboardShips(computer.gameboard.gameboard, computer.id);
+        shipPlacementUI.renderGameboardShips(computer);
       }
     },
 
