@@ -1,12 +1,12 @@
 export function createShipPlacementController(dependencies) {
-  const { service, ui, formsUI } = dependencies;
+  const { service, generator, ui, formsUI, gameboardUI } = dependencies;
 
   function handlePlacementError(reason) {
     console.warn(`Placement failed: ${reason}`);
   }
 
   return {
-    handleAddShip(button, player) {
+    handleAddShip(button, player, computer) {
       const ship = ui.getShipSelection();
       const orientation = ui.getOrientation();
       const coordinates = ui.getCoordinates(button);
@@ -29,6 +29,9 @@ export function createShipPlacementController(dependencies) {
 
       if (ui.getRemainingShips() === 0) {
         formsUI.hideShipForm();
+        gameboardUI.renderGameboard(computer);
+        generator.generateRandomGameboard(computer);
+        ui.renderGameboardShips(computer.gameboard.gameboard, computer.id);
       }
     },
 
