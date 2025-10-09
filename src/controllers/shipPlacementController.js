@@ -1,5 +1,5 @@
 export function createShipPlacementController(dependencies) {
-  const { service, generator, ui, formsUI, gameboardUI } = dependencies;
+  const { service, generator, shipPlacementUI, formsUI, gameboardUI } = dependencies;
 
   function handlePlacementError(reason) {
     console.warn(`Placement failed: ${reason}`);
@@ -7,9 +7,9 @@ export function createShipPlacementController(dependencies) {
 
   return {
     handleAddShip(button, player, computer) {
-      const ship = ui.getShipSelection();
-      const orientation = ui.getOrientation();
-      const coordinates = ui.getCoordinates(button);
+      const ship = shipPlacementUI.getShipSelection();
+      const orientation = shipPlacementUI.getOrientation();
+      const coordinates = shipPlacementUI.getCoordinates(button);
       const board = player.gameboard.gameboard;
 
       if (!ship || !orientation || !coordinates) {
@@ -24,21 +24,21 @@ export function createShipPlacementController(dependencies) {
         return;
       }
 
-      ui.renderGameboardShips(board, player.id);
-      ui.removeShipOption(ship.element);
+      shipPlacementUI.renderGameboardShips(board, player.id);
+      shipPlacementUI.removeShipOption(ship.element);
 
-      if (ui.getRemainingShips() === 0) {
+      if (shipPlacementUI.getRemainingShips() === 0) {
         formsUI.hideShipForm();
         gameboardUI.renderGameboard(computer);
         generator.generateRandomGameboard(computer);
-        ui.renderGameboardShips(computer.gameboard.gameboard, computer.id);
+        shipPlacementUI.renderGameboardShips(computer.gameboard.gameboard, computer.id);
       }
     },
 
     handleHoverPreview(button, player) {
-      const ship = ui.getShipSelection();
-      const orientation = ui.getOrientation();
-      const coordinates = ui.getCoordinates(button);
+      const ship = shipPlacementUI.getShipSelection();
+      const orientation = shipPlacementUI.getOrientation();
+      const coordinates = shipPlacementUI.getCoordinates(button);
 
       if (!ship || !orientation || !coordinates) {
         console.error("Invalid input for ship placement");
@@ -49,15 +49,15 @@ export function createShipPlacementController(dependencies) {
 
       if (!result.success) {
         handlePlacementError(result.reason);
-        ui.highlightCells(result.success, { start: coordinates, length: ship.length, orientation });
+        shipPlacementUI.highlightCells(result.success, { start: coordinates, length: ship.length, orientation });
         return;
       }
 
-      ui.highlightCells(result.success, { start: coordinates, length: ship.length, orientation });
+      shipPlacementUI.highlightCells(result.success, { start: coordinates, length: ship.length, orientation });
     },
 
     handleMouseOutPreview() {
-      ui.clearHighlight();
+      shipPlacementUI.clearHighlight();
     },
   };
 }
