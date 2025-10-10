@@ -39,6 +39,11 @@ export function createGameboardUI() {
       buttons.forEach((button) => button.setAttribute("disabled", ""));
     },
 
+    showHitMark(button) {
+      const el = button.target instanceof Element ? button.target : button;
+      el.innerHTML = `<span class="mdi--close"></span>`;
+    },
+
     showMissedShots(player) {
       player.gameboard.missedShots.forEach((coord) => {
         document.querySelector(

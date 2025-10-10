@@ -15,11 +15,6 @@ export function disableButton(button) {
   button.target.setAttribute("disabled", "");
 }
 
-export function showHitMark(button) {
-  const el = button.target instanceof Element ? button.target : button;
-  el.innerHTML = `<span class="mdi--close"></span>`;
-}
-
 export function addGameOverModal(playerName) {
   const body = document.querySelector("body");
   body.insertAdjacentHTML(
