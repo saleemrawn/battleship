@@ -11,35 +11,6 @@ export function renderGameboardShips(gameboard, playerID) {
   }
 }
 
-export function addGameOverModal(playerName) {
-  const body = document.querySelector("body");
-  body.insertAdjacentHTML(
-    "beforebegin",
-    `
-    <dialog id="gameOverDialog">
-      <div class="dialog-text">
-        <p>Game Over!</p>
-        <p>${playerName} wins!</p>
-      </div>
-      <div class="dialog-buttons">
-        <button id="dialogPlayAgain">Play Again</button>
-      </div>
-    </dialog>
-    `
-  );
-}
-
-export function showGameOverModal() {
-  const dialog = document.querySelector("#gameOverDialog");
-  dialog.showModal();
-}
-
-export function closeGameOverModal() {
-  const dialog = document.querySelector("#gameOverDialog");
-  dialog.close();
-  dialog.remove();
-}
-
 export function clearGameboards() {
   document.querySelector("main").innerHTML = "";
 }
