@@ -16,6 +16,14 @@ export function loadEventListeners(human, computer) {
     shipPlacementController.handleAddShip(event, human, computer)
   );
 
+  addGlobalEventListener("mouseover", `.board-square[data-player-id="1"]`, (event) =>
+    shipPlacementController.handleHoverPreview(event, human)
+  );
+
+  addGlobalEventListener("mouseout", `.board-square[data-player-id="1"]`, () =>
+    shipPlacementController.handleMouseOutPreview()
+  );
+
   addGlobalEventListener("click", "#dialogPlayAgain", () => gameEventController.handlePlayAgainEvent(human, computer));
 }
 
