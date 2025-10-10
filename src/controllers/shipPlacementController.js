@@ -28,6 +28,7 @@ export function createShipPlacementController(dependencies) {
 
       if (shipPlacementUI.getRemainingShips() === 0) {
         formsUI.hideShipForm();
+        gameboardUI.disableGameboard(player);
         gameboardUI.renderGameboard(computer);
         generator.generateRandomGameboard(computer);
         shipPlacementUI.renderGameboardShips(computer);
