@@ -1,4 +1,5 @@
 import { gameEventController } from ".";
+import { shipPlacementController } from ".";
 
 export function loadEventListeners(human, computer) {
   window.addEventListener("load", () => gameEventController.handleGameSetup(human));
@@ -10,6 +11,10 @@ export function loadEventListeners(human, computer) {
   addGlobalEventListener("mouseup", `.board-square[data-player-id="2"]`, () => {
     gameEventController.handleComputerEvent(human, computer);
   });
+
+  addGlobalEventListener("click", `.board-square[data-player-id="1"]`, (event) =>
+    shipPlacementController.handleAddShip(event, human, computer)
+  );
 
   addGlobalEventListener("click", "#dialogPlayAgain", () => gameEventController.handlePlayAgainEvent(human, computer));
 }
