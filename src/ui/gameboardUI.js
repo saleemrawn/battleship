@@ -39,6 +39,10 @@ export function createGameboardUI() {
       buttons.forEach((button) => button.setAttribute("disabled", ""));
     },
 
+    disableButton(button) {
+      button.target.setAttribute("disabled", "");
+    },
+
     showHitMark(button) {
       const el = button.target instanceof Element ? button.target : button;
       el.innerHTML = `<span class="mdi--close"></span>`;

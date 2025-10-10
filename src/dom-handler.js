@@ -11,10 +11,6 @@ export function renderGameboardShips(gameboard, playerID) {
   }
 }
 
-export function disableButton(button) {
-  button.target.setAttribute("disabled", "");
-}
-
 export function addGameOverModal(playerName) {
   const body = document.querySelector("body");
   body.insertAdjacentHTML(
