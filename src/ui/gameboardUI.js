@@ -28,5 +28,15 @@ export function createGameboardUI() {
 
       container.insertAdjacentHTML("beforeend", html);
     },
+
+    enableGameboard(player) {
+      const buttons = document.querySelectorAll(`.board-square[data-player-id="${player.id}"]`);
+      buttons.forEach((button) => button.removeAttribute("disabled"));
+    },
+
+    disableGameboard(player) {
+      const buttons = document.querySelectorAll(`.board-square[data-player-id="${player.id}"]`);
+      buttons.forEach((button) => button.setAttribute("disabled", ""));
+    },
   };
 }
