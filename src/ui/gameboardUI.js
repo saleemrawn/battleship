@@ -38,5 +38,13 @@ export function createGameboardUI() {
       const buttons = document.querySelectorAll(`.board-square[data-player-id="${player.id}"]`);
       buttons.forEach((button) => button.setAttribute("disabled", ""));
     },
+
+    showMissedShots(player) {
+      player.gameboard.missedShots.forEach((coord) => {
+        document.querySelector(
+          `.board-square[data-player-id="${player.id}"][data-x="${coord[1]}"][data-y="${coord[0]}"]`
+        ).innerHTML = `<span class="mdi--checkbox-blank-circle-outline"></span>`;
+      });
+    },
   };
 }
