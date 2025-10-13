@@ -22,11 +22,11 @@ export function createGameEventController(dependencies) {
       computer.gameboard.receiveAttack(y, x);
 
       if (computerBoard[y][x] !== null) {
-        showHitMark(button);
+        gameboardUI.showHitMark(button);
       }
 
-      disableButton(button);
-      showMissedShots(computer);
+      gameboardUI.disableButton(button);
+      gameboardUI.showMissedShots(computer);
       checkGameWinner(human, computer);
     },
 
@@ -49,11 +49,11 @@ export function createGameEventController(dependencies) {
         human.gameboard.receiveAttack(y, x);
 
         if (human.gameboard.gameboard[y][x] !== null) {
-          showHitMark(boardButton);
+          gameboardUI.showHitMark(boardButton);
         }
 
         checkGameWinner(computer, human);
-        showMissedShots(human);
+        gameboardUI.showMissedShots(human);
       }, 2500);
 
       activeTimeouts.push(id);
