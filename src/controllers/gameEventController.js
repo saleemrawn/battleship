@@ -59,8 +59,9 @@ export function createGameEventController(dependencies) {
       activeTimeouts.push(id);
     },
 
-    handlePlayAgainEvent() {
-      this.resetPlayers();
+    handlePlayAgainEvent(human, computer) {
+      this.resetPlayer(human);
+      this.resetPlayer(computer);
       this.resetVisited();
       this.clearTimeouts();
       clearGameboards();
@@ -80,14 +81,16 @@ export function createGameEventController(dependencies) {
       activeTimeouts = [];
     },
 
-    resetPlayers(human, computer) {
-      if (!human || !computer) {
-        console.error("Invalid players");
+    resetPlayer(player) {
+      if (!player) {
+        console.error("Invalid player");
         return;
       }
 
-      human = createPlayer(1, "Player");
-      computer = createPlayer(2, "Computer");
+      player.gameboard.gameboard = Array(10)
+        .fill(null)
+        .map(() => Array(10).fill(null));
+      player.gameboard.missedShots = [];
     },
   };
 }
