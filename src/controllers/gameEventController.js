@@ -2,7 +2,7 @@ import { disableButton, renderAddShipsForm, showHitMark, showMissedShots } from 
 import { createModalUI } from "../ui/modalUI";
 
 export function createGameEventController(dependencies) {
-  const { shipPlacementUI, gameboardUI, formsUI } = dependencies;
+  const { shipPlacementUI, gameboardUI, formsUI, modalUI } = dependencies;
 
   let activeTimeouts = [];
   let visited = [];
@@ -64,9 +64,9 @@ export function createGameEventController(dependencies) {
       this.resetPlayer(computer);
       this.resetVisited();
       this.clearTimeouts();
-      clearGameboards();
-      startGame();
-      closeGameOverModal();
+      gameboardUI.clearGameboards();
+      this.handleGameSetup(human);
+      modalUI.closeModal();
     },
 
     resetVisited() {
