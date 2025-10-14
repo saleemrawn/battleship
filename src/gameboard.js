@@ -47,6 +47,14 @@ export default function createGameboard() {
       return missedShots;
     },
 
+    set gameboard(arr) {
+      gameboard = arr;
+    },
+
+    set missedShots(arr) {
+      missedShots = arr;
+    },
+
     placeShip,
     receiveAttack,
     checkAllShipsSunk,
