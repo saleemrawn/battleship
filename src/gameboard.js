@@ -9,15 +9,16 @@ export default function createGameboard() {
 
   const placeShip = (x, y, shipLength, direction) => {
     const ship = createShip(shipLength);
-    const validPositions = getValidPositions(
-      x,
-      y,
-      shipLength,
-      gameboard,
-      direction
-    );
 
-    validPositions.forEach((pos) => (gameboard[pos[0]][pos[1]] = ship));
+    for (let i = 0; i < shipLength; i++) {
+      if (direction === "horizontal") {
+        gameboard[y][x + i] = ship;
+      }
+
+      if (direction === "vertical") {
+        gameboard[y + i][x] = ship;
+      }
+    }
   };
 
   const receiveAttack = (x, y) => {
@@ -89,21 +90,9 @@ function getValidPositions(startX, startY, shipLength, gameboard, direction) {
     }
 
     if (direction === "horizontal") {
-      return getValidPositions(
-        (startX = startX + 1),
-        startY,
-        shipLength,
-        gameboard,
-        direction
-      );
+      return getValidPositions((startX = startX + 1), startY, shipLength, gameboard, direction);
     } else if (direction === "vertical") {
-      return getValidPositions(
-        startX,
-        (startY = startY + 1),
-        shipLength,
-        gameboard,
-        direction
-      );
+      return getValidPositions(startX, (startY = startY + 1), shipLength, gameboard, direction);
     }
   }
 
