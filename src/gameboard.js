@@ -1,11 +1,11 @@
 import createShip from "./ship";
 
 export default function createGameboard() {
-  const gameboard = Array(10)
+  let gameboard = Array(10)
     .fill(null)
     .map(() => Array(10).fill(null));
 
-  const missedShots = [];
+  let missedShots = [];
 
   const placeShip = (x, y, shipLength, direction) => {
     const ship = createShip(shipLength);
