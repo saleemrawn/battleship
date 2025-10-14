@@ -55,5 +55,14 @@ export function createGameboardUI() {
         ).innerHTML = `<span class="mdi--checkbox-blank-circle-outline"></span>`;
       });
     },
+
+    clearGameboards(selector = "main") {
+      if (!selector) {
+        console.error("Invalid selector");
+        return null;
+      }
+
+      document.querySelector(selector).innerHTML = "";
+    },
   };
 }
