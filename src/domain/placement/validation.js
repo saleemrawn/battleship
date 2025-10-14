@@ -1,5 +1,4 @@
 import { getPlacementStrategy } from "./strategies";
-import { isValidPlacement } from "../../helpers";
 
 export function validatePlacement(player, placement) {
   const { start, length, orientation } = placement;
@@ -18,4 +17,22 @@ export function validatePlacement(player, placement) {
   }
 
   return { success: true, positions };
+}
+
+function isValidPlacement(board, candidatePositions) {
+  const size = board.length;
+
+  for (const [x, y] of candidatePositions) {
+    for (let dx = -1; dx <= 1; dx++) {
+      for (let dy = -1; dy <= 1; dy++) {
+        const nx = x + dx;
+        const ny = y + dy;
+
+        if (nx < 0 || ny < 0 || nx >= size || ny >= size) continue;
+        if (board[ny][nx] !== null) return false;
+      }
+    }
+  }
+
+  return true;
 }
