@@ -21,11 +21,11 @@ export default function createGameboard() {
     }
   };
 
-  const receiveAttack = (x, y) => {
-    if (gameboard[x][y] !== null) {
-      gameboard[x][y].hit();
+  const receiveAttack = (y, x) => {
+    if (gameboard[y][x] !== null) {
+      gameboard[y][x].hit();
     } else {
-      missedShots.push([x, y]);
+      missedShots.push([y, x]);
     }
   };
 
