@@ -27,7 +27,7 @@ export function createGameEventController(dependencies) {
 
       gameboardUI.disableButton(button);
       gameboardUI.showMissedShots(computer);
-      checkGameWinner(human, computer);
+      this.checkGameWinner(human, computer);
     },
 
     handleComputerEvent(human, computer) {
@@ -52,7 +52,7 @@ export function createGameEventController(dependencies) {
           gameboardUI.showHitMark(boardButton);
         }
 
-        checkGameWinner(computer, human);
+        this.checkGameWinner(computer, human);
         gameboardUI.showMissedShots(human);
       }, 2500);
 
@@ -92,17 +92,16 @@ export function createGameEventController(dependencies) {
         .map(() => Array(10).fill(null));
       player.gameboard.missedShots = [];
     },
+
+    checkGameWinner(player, opponent) {
+      if (opponent.gameboard.checkAllShipsSunk() === true) {
+        this.handleGameOverEvent(player);
+      }
+    },
+
+    handleGameOverEvent(player) {
+      modalUI.addGameOverModal(player);
+      modalUI.showModal();
+    },
   };
-}
-
-function checkGameWinner(player, opponent) {
-  if (opponent.gameboard.checkAllShipsSunk() === true) {
-    handleGameOverEvent(player);
-  }
-}
-
-function handleGameOverEvent(player) {
-  const modalUI = createModalUI();
-  modalUI.addGameOverModal(player);
-  modalUI.showModal();
 }
