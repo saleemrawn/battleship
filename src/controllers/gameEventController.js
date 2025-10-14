@@ -1,3 +1,5 @@
+import { generateRandomCoordinate } from "../helpers";
+
 export function createGameEventController(dependencies) {
   const { shipPlacementUI, gameboardUI, formsUI, modalUI } = dependencies;
 
@@ -28,8 +30,9 @@ export function createGameEventController(dependencies) {
     },
 
     handleComputerEvent(human, computer) {
-      const x = Math.floor(Math.random() * boardSize);
-      const y = Math.floor(Math.random() * boardSize);
+      const boardSize = computer.gameboard.gameboard.length;
+      const x = generateRandomCoordinate(boardSize);
+      const y = generateRandomCoordinate(boardSize);
       const exists = visited.some(([xi, xy]) => xi === x && xy === y);
 
       if (exists) {
