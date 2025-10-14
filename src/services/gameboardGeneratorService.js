@@ -19,8 +19,8 @@ export function createGameboardGeneratorService() {
         while (!placed) {
           let candidatePositions = [];
           let orientation = generateRandomOrientation();
-          let x = generateRandomCoordinate(size, ship.length, orientation);
-          let y = generateRandomCoordinate(size, ship.length, orientation);
+          let x = generateRandomCoordinate(size);
+          let y = generateRandomCoordinate(size);
 
           const result = validatePlacement(player, {
             start: { x, y },
