@@ -1,6 +1,3 @@
-import { disableButton, renderAddShipsForm, showHitMark, showMissedShots } from "../dom-handler";
-import { createModalUI } from "../ui/modalUI";
-
 export function createGameEventController(dependencies) {
   const { shipPlacementUI, gameboardUI, formsUI, modalUI } = dependencies;
 
