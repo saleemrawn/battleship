@@ -26,6 +26,7 @@ export function createGameEventController(dependencies) {
 
       gameboardUI.disableButton(button);
       gameboardUI.showMissedShots(computer);
+      gameboardUI.disableGameboard(computer);
       this.checkGameWinner(human, computer);
     },
 
@@ -54,6 +55,7 @@ export function createGameEventController(dependencies) {
 
         this.checkGameWinner(computer, human);
         gameboardUI.showMissedShots(human);
+        gameboardUI.enableGameboard(computer);
       }, 2500);
 
       activeTimeouts.push(id);
