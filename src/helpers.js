@@ -1,3 +1,3 @@
-export function generateRandomCoordinate(gridSize) {
-  return Math.floor(Math.random() * gridSize);
+export function generateRandomCoordinate(boardSize) {
+  return Math.floor(Math.random() * boardSize);
 }
