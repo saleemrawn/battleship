@@ -1,3 +1,5 @@
+import { validatePlacement } from "../domain/placement/validation";
+
 export function createShipPlacementController(dependencies) {
   const { service, generator, shipPlacementUI, formsUI, gameboardUI } = dependencies;
 
@@ -45,7 +47,7 @@ export function createShipPlacementController(dependencies) {
         return;
       }
 
-      const result = service.validatePlacement(player, { start: coordinates, length: ship.length, orientation });
+      const result = validatePlacement(player, { start: coordinates, length: ship.length, orientation });
 
       if (!result.success) {
         handlePlacementError(result.reason);
