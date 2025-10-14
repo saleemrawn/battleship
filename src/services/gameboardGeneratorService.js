@@ -9,7 +9,7 @@ export function createGameboardGeneratorService() {
         return;
       }
 
-      const board = player.gameboard.gameboard;
+      const board = player.gameboard.board;
       const size = board.length;
       const shipsInfo = getShipsInformation();
 

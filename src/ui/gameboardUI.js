@@ -7,7 +7,7 @@ export function createGameboardUI() {
       }
 
       const mainContainer = document.querySelector("main");
-      const board = player.gameboard.gameboard;
+      const board = player.gameboard.board;
 
       mainContainer.insertAdjacentHTML(
         "beforeend",

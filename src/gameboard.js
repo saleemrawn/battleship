@@ -1,7 +1,7 @@
 import createShip from "./ship";
 
 export default function createGameboard() {
-  let gameboard = Array(10)
+  let board = Array(10)
     .fill(null)
     .map(() => Array(10).fill(null));
 
@@ -12,25 +12,25 @@ export default function createGameboard() {
 
     for (let i = 0; i < shipLength; i++) {
       if (direction === "horizontal") {
-        gameboard[y][x + i] = ship;
+        board[y][x + i] = ship;
       }
 
       if (direction === "vertical") {
-        gameboard[y + i][x] = ship;
+        board[y + i][x] = ship;
       }
     }
   };
 
   const receiveAttack = (y, x) => {
-    if (gameboard[y][x] !== null) {
-      gameboard[y][x].hit();
+    if (board[y][x] !== null) {
+      board[y][x].hit();
     } else {
       missedShots.push([y, x]);
     }
   };
 
   const checkAllShipsSunk = () => {
-    const result = gameboard
+    const result = board
       .flat()
       .filter((item) => item !== null)
       .every((item) => item.isSunk() === true);
@@ -39,16 +39,16 @@ export default function createGameboard() {
   };
 
   return {
-    get gameboard() {
-      return gameboard;
+    get board() {
+      return board;
     },
 
     get missedShots() {
       return missedShots;
     },
 
-    set gameboard(arr) {
-      gameboard = arr;
+    set board(arr) {
+      board = arr;
     },
 
     set missedShots(arr) {

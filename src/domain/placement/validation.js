@@ -2,7 +2,7 @@ import { getPlacementStrategy } from "./strategies";
 
 export function validatePlacement(player, placement) {
   const { start, length, orientation } = placement;
-  const board = player.gameboard.gameboard;
+  const board = player.gameboard.board;
   const boardSize = board.length;
 
   const strategy = getPlacementStrategy(orientation);

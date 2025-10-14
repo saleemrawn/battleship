@@ -25,7 +25,7 @@ describe("generateRandomGameboard", () => {
 
   test("player gameboard returns array with 17 ships", () => {
     gameboardGenerator.generateRandomGameboard(player);
-    const ships = player.gameboard.gameboard.flat().filter((pos) => pos !== null);
+    const ships = player.gameboard.board.flat().filter((pos) => pos !== null);
     expect(ships.length).toEqual(17);
   });
 });

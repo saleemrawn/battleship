@@ -16,7 +16,7 @@ export function createGameEventController(dependencies) {
     handlePlayerEvent(human, computer, button) {
       const x = parseInt(button.target.getAttribute("data-x"));
       const y = parseInt(button.target.getAttribute("data-y"));
-      const computerBoard = computer.gameboard.gameboard;
+      const computerBoard = computer.gameboard.board;
 
       computer.gameboard.receiveAttack(y, x);
 
@@ -30,7 +30,7 @@ export function createGameEventController(dependencies) {
     },
 
     handleComputerEvent(human, computer) {
-      const boardSize = computer.gameboard.gameboard.length;
+      const boardSize = computer.gameboard.board.length;
       const x = generateRandomCoordinate(boardSize);
       const y = generateRandomCoordinate(boardSize);
       const exists = visited.some(([xi, xy]) => xi === x && xy === y);
@@ -48,7 +48,7 @@ export function createGameEventController(dependencies) {
       const id = setTimeout(() => {
         human.gameboard.receiveAttack(y, x);
 
-        if (human.gameboard.gameboard[y][x] !== null) {
+        if (human.gameboard.board[y][x] !== null) {
           gameboardUI.showHitMark(boardButton);
         }
 
@@ -87,7 +87,7 @@ export function createGameEventController(dependencies) {
         return;
       }
 
-      player.gameboard.gameboard = Array(10)
+      player.gameboard.board = Array(10)
         .fill(null)
         .map(() => Array(10).fill(null));
       player.gameboard.missedShots = [];

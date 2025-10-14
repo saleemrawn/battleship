@@ -69,7 +69,7 @@ export function createShipPlacementUI(config = {}) {
     },
 
     renderGameboardShips(player) {
-      const board = player.gameboard.gameboard;
+      const board = player.gameboard.board;
       for (let i = 0; i < board.length; i++) {
         for (let j = 0; j < board[i].length; j++) {
           if (board[i][j] !== null) {
