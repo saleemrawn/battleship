@@ -1,4 +1,4 @@
-import { getAlphabet, getBoardNumbers } from "../helpers";
+import { getBoardAlphabet, getBoardNumbers } from "../helpers";
 
 export function createGameboardUI() {
   return {
@@ -80,7 +80,7 @@ export function createGameboardUI() {
       const container = document.querySelector(selector);
       container.insertAdjacentHTML("afterbegin", `<div class="board-alphabet">`);
 
-      const letters = getAlphabet();
+      const letters = getBoardAlphabet();
       const html = letters.map((letter) => `<div class="letter">${letter.toUpperCase()}</div>`).join("");
 
       const alphabet = document.querySelector(`${selector} .board-alphabet`);

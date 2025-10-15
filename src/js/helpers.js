@@ -18,7 +18,7 @@ export function getShipsInformation() {
   return ships;
 }
 
-export function getAlphabet() {
+export function getBoardAlphabet() {
   const str = "abcdefjhij";
   return str.split("");
 }
