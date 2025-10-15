@@ -1,5 +1,5 @@
-import createPlayer from "../src/player";
-import { createGameboardGeneratorService } from "../src/services/gameboardGeneratorService";
+import createPlayer from "../src/js/player";
+import { createGameboardGeneratorService } from "../src/js/services/gameboardGeneratorService";
 
 let gameboardGenerator;
 let player;
