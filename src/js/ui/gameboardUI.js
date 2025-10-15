@@ -1,6 +1,38 @@
 import { getBoardAlphabet, getBoardNumbers } from "../helpers";
 
 export function createGameboardUI() {
+  const renderGameboardAlphabet = (selector) => {
+    if (!selector) {
+      console.error(`Invalid selector: ${selector}`);
+      return;
+    }
+
+    const container = document.querySelector(selector);
+    container.insertAdjacentHTML("afterbegin", `<div class="board-alphabet">`);
+
+    const letters = getBoardAlphabet();
+    const html = letters.map((letter) => `<div class="letter">${letter.toUpperCase()}</div>`).join("");
+
+    const alphabet = document.querySelector(`${selector} .board-alphabet`);
+    alphabet.insertAdjacentHTML("beforeend", html);
+  };
+
+  const renderGameboardNumbers = (selector) => {
+    if (!selector) {
+      console.error(`Invalid selector: ${selector}`);
+      return;
+    }
+
+    const container = document.querySelector(selector);
+    container.insertAdjacentHTML("afterbegin", `<div class="board-numbers">`);
+
+    const numbers = getBoardNumbers();
+    const html = numbers.map((number) => `<div class="number">${number}</div>`).join("");
+
+    const boardNumbers = document.querySelector(`${selector} .board-numbers`);
+    boardNumbers.insertAdjacentHTML("beforeend", html);
+  };
+
   return {
     renderGameboard(player) {
       if (!player || typeof player !== "object" || Array.isArray(player)) {
@@ -31,8 +63,8 @@ export function createGameboardUI() {
         .join("");
 
       container.insertAdjacentHTML("beforeend", html);
-      this.renderGameboardAlphabet(`.player-container[data-player-id="${player.id}"]`);
-      this.renderGameboardNumbers(`.player-container[data-player-id="${player.id}"]`);
+      renderGameboardAlphabet(`.player-container[data-player-id="${player.id}"]`);
+      renderGameboardNumbers(`.player-container[data-player-id="${player.id}"]`);
     },
 
     enableGameboard(player) {
@@ -69,38 +101,6 @@ export function createGameboardUI() {
       }
 
       document.querySelector(selector).innerHTML = "";
-    },
-
-    renderGameboardAlphabet(selector) {
-      if (!selector) {
-        console.error(`Invalid selector: ${selector}`);
-        return;
-      }
-
-      const container = document.querySelector(selector);
-      container.insertAdjacentHTML("afterbegin", `<div class="board-alphabet">`);
-
-      const letters = getBoardAlphabet();
-      const html = letters.map((letter) => `<div class="letter">${letter.toUpperCase()}</div>`).join("");
-
-      const alphabet = document.querySelector(`${selector} .board-alphabet`);
-      alphabet.insertAdjacentHTML("beforeend", html);
-    },
-
-    renderGameboardNumbers(selector) {
-      if (!selector) {
-        console.error(`Invalid selector: ${selector}`);
-        return;
-      }
-
-      const container = document.querySelector(selector);
-      container.insertAdjacentHTML("afterbegin", `<div class="board-numbers">`);
-
-      const numbers = getBoardNumbers();
-      const html = numbers.map((number) => `<div class="number">${number}</div>`).join("");
-
-      const boardNumbers = document.querySelector(`${selector} .board-numbers`);
-      boardNumbers.insertAdjacentHTML("beforeend", html);
     },
   };
 }
