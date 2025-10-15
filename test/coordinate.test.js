@@ -1,4 +1,4 @@
-import { createCoordinate } from "../src/domain/placement/coordinate";
+import { createCoordinate } from "../src/js/domain/placement/coordinate";
 
 describe("createCoordinate", () => {
   test("returns object with x = 5, y = 8", () => {
