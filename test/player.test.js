@@ -1,6 +1,19 @@
-import createPlayer from "../src/player";
+import createPlayer from "../src/js/player";
 
-test("Player obj has gameboard property with val gameboard obj", () => {
-  const newPlayer = createPlayer(0);
-  expect(newPlayer).toHaveProperty("gameboard", expect.any(Object));
+let player;
+
+beforeEach(() => {
+  player = createPlayer(1, "Human");
+});
+
+test("Player has gameboard property with value gameboard obj", () => {
+  expect(player).toHaveProperty("gameboard", expect.any(Object));
+});
+
+test("Player has name property with value Human", () => {
+  expect(player).toHaveProperty("name", "Human");
+});
+
+test("Player has id property with value 1", () => {
+  expect(player).toHaveProperty("id", 1);
 });
