@@ -3,9 +3,9 @@ import { validatePlacement } from "../domain/placement/validation";
 export function createShipPlacementController(dependencies) {
   const { service, generator, shipPlacementUI, formsUI, gameboardUI } = dependencies;
 
-  function handlePlacementError(reason) {
+  const handlePlacementError = (reason) => {
     console.warn(`Placement failed: ${reason}`);
-  }
+  };
 
   return {
     handleAddShip(button, player, computer) {
