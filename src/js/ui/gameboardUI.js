@@ -1,3 +1,5 @@
+import { getAlphabet } from "../helpers";
+
 export function createGameboardUI() {
   return {
     renderGameboard(player) {
@@ -11,10 +13,12 @@ export function createGameboardUI() {
 
       mainContainer.insertAdjacentHTML(
         "beforeend",
-        `<div class="player-container" data-player-id="${player.id}"></div>`
+        `<div class="player-container" data-player-id="${player.id}">
+          <div class="board-buttons"></div>
+        </div>`
       );
 
-      const container = document.querySelector(`.player-container[data-player-id="${player.id}"]`);
+      const container = document.querySelector(`.player-container[data-player-id="${player.id}"] .board-buttons`);
       const html = board
         .map((row, i) =>
           row
@@ -27,6 +31,7 @@ export function createGameboardUI() {
         .join("");
 
       container.insertAdjacentHTML("beforeend", html);
+      this.renderGameboardAlphabet(`.player-container[data-player-id="${player.id}"]`);
     },
 
     enableGameboard(player) {
@@ -63,6 +68,22 @@ export function createGameboardUI() {
       }
 
       document.querySelector(selector).innerHTML = "";
+    },
+
+    renderGameboardAlphabet(selector) {
+      if (!selector) {
+        console.error(`Invalid selector: ${selector}`);
+        return;
+      }
+
+      const container = document.querySelector(selector);
+      container.insertAdjacentHTML("afterbegin", `<div class="board-alphabet">`);
+
+      const letters = getAlphabet();
+      const html = letters.map((letter) => `<div class="letter">${letter.toUpperCase()}</div>`).join("");
+
+      const alphabet = document.querySelector(`${selector} .board-alphabet`);
+      alphabet.insertAdjacentHTML("beforeend", html);
     },
   };
 }
