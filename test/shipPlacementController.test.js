@@ -2,14 +2,19 @@
  * @jest-environment jsdom
  */
 
-import { createShipPlacementController } from "../src/controllers/shipPlacementController";
+import { createShipPlacementController } from "../src/js/controllers/shipPlacementController";
+import createPlayer from "../src/js/player";
 
-let mockUi;
+let human;
+let computer;
+let mockGameboardGeneratorService;
+let mockShipPlacementUI;
+let mockFormsUI;
+let mockGameboardUI;
 let mockService;
-let mockGameStateManager;
-let mockController;
+let mockShipPlacementController;
 let mockButton;
-let mockPlayer;
+let mockValidation;
 let consoleWarnSpy;
 let consoleErrorSpy;
 
@@ -17,14 +22,38 @@ beforeEach(() => {
   jest.clearAllMocks();
 
   mockButton = document.createElement("button");
-  mockPlayer = { id: 1, name: "Player", gameboard: { gameboard: new Array(10) } };
+  human = createPlayer(1, "Player");
+  computer = createPlayer(2, "Computer");
 
   mockService = {
     placeShip: jest.fn(),
+  };
+
+  mockValidation = {
     validatePlacement: jest.fn(),
   };
 
-  mockUi = {
+  mockGameboardGeneratorService = {
+    generateRandomGameboard: jest.fn(),
+  };
+
+  mockFormsUI = {
+    renderShipForm: jest.fn(),
+    hideShipForm: jest.fn(),
+  };
+
+  mockGameboardUI = {
+    renderGameboard: jest.fn(),
+    enableGameboard: jest.fn(),
+    enableGameboard: jest.fn(),
+    disableGameboard: jest.fn(),
+    disableButton: jest.fn(),
+    showHitMark: jest.fn(),
+    showMissedShots: jest.fn(),
+    clearGameboards: jest.fn(),
+  };
+
+  mockShipPlacementUI = {
     getShipSelection: jest.fn(),
     getOrientation: jest.fn(),
     getCoordinates: jest.fn(),
@@ -35,14 +64,12 @@ beforeEach(() => {
     renderGameboardShips: jest.fn(),
   };
 
-  mockGameStateManager = {
-    onAllShipsPlaced: jest.fn(),
-  };
-
-  mockController = createShipPlacementController({
+  mockShipPlacementController = createShipPlacementController({
     service: mockService,
-    ui: mockUi,
-    gameStateManager: mockGameStateManager,
+    generator: mockGameboardGeneratorService,
+    shipPlacementUI: mockShipPlacementUI,
+    formsUI: mockFormsUI,
+    gameboardUI: mockGameboardUI,
   });
 
   consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
@@ -55,206 +82,227 @@ afterEach(() => {
 });
 
 describe("handleAddShip", () => {
-  test("should call onAllShipsPlaced when all ships are placed", () => {
-    mockUi.getOrientation.mockReturnValue("horizontal");
-    mockUi.getCoordinates.mockReturnValue({ x: 0, y: 0 });
-    mockUi.getShipSelection.mockReturnValue({
+  test("should hide form and set up computer gameboard when all ships are placed", () => {
+    mockShipPlacementUI.getOrientation.mockReturnValue("horizontal");
+    mockShipPlacementUI.getCoordinates.mockReturnValue({ x: 0, y: 0 });
+    mockShipPlacementUI.getShipSelection.mockReturnValue({
       element: `<option value="2" data-ship-name="Patrol Boat">Patrol Boat (2)</option>`,
       length: 2,
     });
-
     mockService.placeShip.mockReturnValue({ success: true });
-    mockUi.getRemainingShips.mockReturnValue(0);
-    mockController.handleAddShip(mockButton, mockPlayer);
+    mockShipPlacementUI.getRemainingShips.mockReturnValue(0);
 
-    expect(mockService.placeShip).toHaveBeenCalledWith(mockPlayer, {
+    mockShipPlacementController.handleAddShip(mockButton, human, computer);
+
+    expect(mockService.placeShip).toHaveBeenCalledWith(human, {
       start: { x: 0, y: 0 },
       length: 2,
       orientation: "horizontal",
     });
-    expect(mockUi.renderGameboardShips).toHaveBeenCalledWith(expect.any(Array), 1);
-    expect(mockUi.removeShipOption).toHaveBeenCalledWith(
+    expect(mockShipPlacementUI.renderGameboardShips).toHaveBeenCalledWith(human);
+    expect(mockShipPlacementUI.removeShipOption).toHaveBeenCalledWith(
       `<option value="2" data-ship-name="Patrol Boat">Patrol Boat (2)</option>`
     );
-    expect(mockGameStateManager.onAllShipsPlaced).toHaveBeenCalledWith(mockPlayer);
+    expect(mockFormsUI.hideShipForm).toHaveBeenCalled();
+    expect(mockGameboardUI.disableGameboard).toHaveBeenCalledWith(human);
+    expect(mockGameboardUI.renderGameboard).toHaveBeenCalledWith(computer);
+    expect(mockGameboardGeneratorService.generateRandomGameboard).toHaveBeenCalledWith(computer);
+    expect(mockShipPlacementUI.renderGameboardShips).toHaveBeenCalledWith(computer);
   });
 
-  test("should not call removeShipOption, onAllShipsPlaced when all placeShip is unsuccessful", () => {
-    mockUi.getOrientation.mockReturnValue("horizontal");
-    mockUi.getCoordinates.mockReturnValue({ x: 0, y: 0 });
-    mockUi.getShipSelection.mockReturnValue({
+  test("should not call removeShipOption, hide ship form, set up computer gameboard when placeShip is unsuccessful", () => {
+    mockShipPlacementUI.getOrientation.mockReturnValue("horizontal");
+    mockShipPlacementUI.getCoordinates.mockReturnValue({ x: 9, y: 9 });
+    mockShipPlacementUI.getShipSelection.mockReturnValue({
       element: `<option value="2" data-ship-name="Patrol Boat">Patrol Boat (2)</option>`,
       length: 2,
     });
-
     mockService.placeShip.mockReturnValue({ success: false });
-    mockUi.getRemainingShips.mockReturnValue(0);
-    mockController.handleAddShip(mockButton, mockPlayer);
 
-    expect(mockService.placeShip).toHaveBeenCalledWith(mockPlayer, {
-      start: { x: 0, y: 0 },
+    mockShipPlacementController.handleAddShip(mockButton, human, computer);
+
+    expect(mockService.placeShip).toHaveBeenCalledWith(human, {
+      start: { x: 9, y: 9 },
       length: 2,
       orientation: "horizontal",
     });
-    expect(mockUi.renderGameboardShips).not.toHaveBeenCalled();
-    expect(mockUi.removeShipOption).not.toHaveBeenCalled();
-    expect(mockGameStateManager.onAllShipsPlaced).not.toHaveBeenCalled();
+    expect(mockShipPlacementUI.renderGameboardShips).not.toHaveBeenCalled();
+    expect(mockShipPlacementUI.removeShipOption).not.toHaveBeenCalled();
+    expect(mockFormsUI.hideShipForm).not.toHaveBeenCalled();
+    expect(mockGameboardUI.disableGameboard).not.toHaveBeenCalledWith(human);
+    expect(mockGameboardUI.renderGameboard).not.toHaveBeenCalledWith(computer);
+    expect(mockGameboardGeneratorService.generateRandomGameboard).not.toHaveBeenCalledWith(computer);
+    expect(mockShipPlacementUI.renderGameboardShips).not.toHaveBeenCalledWith(computer);
   });
 
-  test("onAllShipsPlaced not called if all ships not placed", () => {
-    mockUi.getOrientation.mockReturnValue("horizontal");
-    mockUi.getCoordinates.mockReturnValue({ x: 0, y: 0 });
-    mockUi.getShipSelection.mockReturnValue({
+  test("should not hide form, set up computer gameboard if all ships not placed", () => {
+    mockShipPlacementUI.getOrientation.mockReturnValue("horizontal");
+    mockShipPlacementUI.getCoordinates.mockReturnValue({ x: 0, y: 0 });
+    mockShipPlacementUI.getShipSelection.mockReturnValue({
       element: `<option value="2" data-ship-name="Patrol Boat">Patrol Boat (2)</option>`,
       length: 2,
     });
-
     mockService.placeShip.mockReturnValue({ success: true });
-    mockUi.getRemainingShips.mockReturnValue(3);
-    mockController.handleAddShip(mockButton, mockPlayer);
+    mockShipPlacementUI.getRemainingShips.mockReturnValue(5);
 
-    expect(mockService.placeShip).toHaveBeenCalledWith(mockPlayer, {
+    mockShipPlacementController.handleAddShip(mockButton, human, computer);
+
+    expect(mockService.placeShip).toHaveBeenCalledWith(human, {
       start: { x: 0, y: 0 },
       length: 2,
       orientation: "horizontal",
     });
-    expect(mockUi.renderGameboardShips).toHaveBeenCalledWith(expect.any(Array), 1);
-    expect(mockUi.removeShipOption).toHaveBeenCalledWith(
+    expect(mockShipPlacementUI.renderGameboardShips).toHaveBeenCalledWith(human);
+    expect(mockShipPlacementUI.removeShipOption).toHaveBeenCalledWith(
       `<option value="2" data-ship-name="Patrol Boat">Patrol Boat (2)</option>`
     );
-    expect(mockGameStateManager.onAllShipsPlaced).not.toHaveBeenCalled();
+    expect(mockFormsUI.hideShipForm).not.toHaveBeenCalled();
+    expect(mockGameboardUI.disableGameboard).not.toHaveBeenCalledWith(human);
+    expect(mockGameboardUI.renderGameboard).not.toHaveBeenCalledWith(computer);
+    expect(mockGameboardGeneratorService.generateRandomGameboard).not.toHaveBeenCalledWith(computer);
+    expect(mockShipPlacementUI.renderGameboardShips).not.toHaveBeenCalledWith(computer);
   });
 
   test("early return if ship is invalid", () => {
-    mockUi.getOrientation.mockReturnValue("horizontal");
-    mockUi.getCoordinates.mockReturnValue({ x: 0, y: 0 });
-    mockUi.getShipSelection.mockReturnValue(null);
+    mockShipPlacementUI.getOrientation.mockReturnValue("horizontal");
+    mockShipPlacementUI.getCoordinates.mockReturnValue({ x: 0, y: 0 });
+    mockShipPlacementUI.getShipSelection.mockReturnValue(null);
 
-    mockController.handleAddShip(mockButton, mockPlayer);
+    mockShipPlacementController.handleAddShip(mockButton, human, computer);
 
     expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid input for ship placement");
-    expect(mockService.placeShip).not.toHaveBeenCalled();
-    expect(mockUi.renderGameboardShips).not.toHaveBeenCalled();
-    expect(mockUi.removeShipOption).not.toHaveBeenCalled();
+    expect(mockShipPlacementUI.renderGameboardShips).not.toHaveBeenCalledWith(human);
+    expect(mockShipPlacementUI.removeShipOption).not.toHaveBeenCalled();
+    expect(mockFormsUI.hideShipForm).not.toHaveBeenCalled();
+    expect(mockGameboardUI.disableGameboard).not.toHaveBeenCalledWith(human);
+    expect(mockGameboardUI.renderGameboard).not.toHaveBeenCalledWith(computer);
+    expect(mockGameboardGeneratorService.generateRandomGameboard).not.toHaveBeenCalledWith(computer);
+    expect(mockShipPlacementUI.renderGameboardShips).not.toHaveBeenCalledWith(computer);
   });
 
   test("early return error if orientation is invalid", () => {
-    mockUi.getOrientation.mockReturnValue(null);
-    mockUi.getCoordinates.mockReturnValue({ x: 0, y: 0 });
-    mockUi.getShipSelection.mockReturnValue({
+    mockShipPlacementUI.getOrientation.mockReturnValue(null);
+    mockShipPlacementUI.getCoordinates.mockReturnValue({ x: 0, y: 0 });
+    mockShipPlacementUI.getShipSelection.mockReturnValue({
       element: `<option value="2" data-ship-name="Patrol Boat">Patrol Boat (2)</option>`,
       length: 2,
     });
 
-    mockController.handleAddShip(mockButton, mockPlayer);
+    mockShipPlacementController.handleAddShip(mockButton, human, computer);
 
     expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid input for ship placement");
-    expect(mockService.placeShip).not.toHaveBeenCalled();
-    expect(mockUi.renderGameboardShips).not.toHaveBeenCalled();
-    expect(mockUi.removeShipOption).not.toHaveBeenCalled();
+    expect(mockShipPlacementUI.renderGameboardShips).not.toHaveBeenCalledWith(human);
+    expect(mockShipPlacementUI.removeShipOption).not.toHaveBeenCalled();
+    expect(mockFormsUI.hideShipForm).not.toHaveBeenCalled();
+    expect(mockGameboardUI.disableGameboard).not.toHaveBeenCalledWith(human);
+    expect(mockGameboardUI.renderGameboard).not.toHaveBeenCalledWith(computer);
+    expect(mockGameboardGeneratorService.generateRandomGameboard).not.toHaveBeenCalledWith(computer);
+    expect(mockShipPlacementUI.renderGameboardShips).not.toHaveBeenCalledWith(computer);
   });
 
   test("early return if coordinates is invalid", () => {
-    mockUi.getOrientation.mockReturnValue("horizontal");
-    mockUi.getCoordinates.mockReturnValue(null);
-    mockUi.getShipSelection.mockReturnValue({
+    mockShipPlacementUI.getOrientation.mockReturnValue("horizontal");
+    mockShipPlacementUI.getCoordinates.mockReturnValue(null);
+    mockShipPlacementUI.getShipSelection.mockReturnValue({
       element: `<option value="2" data-ship-name="Patrol Boat">Patrol Boat (2)</option>`,
       length: 2,
     });
 
-    mockController.handleAddShip(mockButton, mockPlayer);
+    mockShipPlacementController.handleAddShip(mockButton, human, computer);
 
     expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid input for ship placement");
-    expect(mockService.placeShip).not.toHaveBeenCalled();
-    expect(mockUi.renderGameboardShips).not.toHaveBeenCalled();
-    expect(mockUi.removeShipOption).not.toHaveBeenCalled();
+    expect(mockShipPlacementUI.renderGameboardShips).not.toHaveBeenCalledWith(human);
+    expect(mockShipPlacementUI.removeShipOption).not.toHaveBeenCalled();
+    expect(mockFormsUI.hideShipForm).not.toHaveBeenCalled();
+    expect(mockGameboardUI.disableGameboard).not.toHaveBeenCalledWith(human);
+    expect(mockGameboardUI.renderGameboard).not.toHaveBeenCalledWith(computer);
+    expect(mockGameboardGeneratorService.generateRandomGameboard).not.toHaveBeenCalledWith(computer);
+    expect(mockShipPlacementUI.renderGameboardShips).not.toHaveBeenCalledWith(computer);
   });
 });
 
 describe("handleHoverPreview", () => {
   test("hover validation successful", () => {
-    mockUi.getCoordinates.mockReturnValue({ x: 0, y: 0 });
-    mockUi.getOrientation.mockReturnValue("horizontal");
-    mockUi.getShipSelection.mockReturnValue({
+    mockShipPlacementUI.getCoordinates.mockReturnValue({ x: 0, y: 0 });
+    mockShipPlacementUI.getOrientation.mockReturnValue("horizontal");
+    mockShipPlacementUI.getShipSelection.mockReturnValue({
       element: `<option value="2" data-ship-name="Patrol Boat">Patrol Boat (2)</option>`,
       length: 2,
     });
 
-    mockService.validatePlacement.mockReturnValue({ success: true });
-    mockController.handleHoverPreview();
+    mockValidation.validatePlacement.mockReturnValue({ success: true });
+    mockShipPlacementController.handleHoverPreview(mockButton, human);
 
-    expect(mockService.validatePlacement).toHaveBeenCalled();
-    expect(mockUi.highlightCells).toHaveBeenCalledWith(
+    expect(mockShipPlacementUI.highlightCells).toHaveBeenCalledWith(
       true,
       expect.objectContaining({ length: 2, orientation: "horizontal", start: expect.objectContaining({ x: 0, y: 0 }) })
     );
   });
 
   test("hover validation unsuccessful", () => {
-    mockUi.getCoordinates.mockReturnValue({ x: 0, y: 0 });
-    mockUi.getOrientation.mockReturnValue("horizontal");
-    mockUi.getShipSelection.mockReturnValue({
+    mockShipPlacementUI.getCoordinates.mockReturnValue({ x: 9, y: 9 });
+    mockShipPlacementUI.getOrientation.mockReturnValue("horizontal");
+    mockShipPlacementUI.getShipSelection.mockReturnValue({
       element: `<option value="2" data-ship-name="Patrol Boat">Patrol Boat (2)</option>`,
       length: 2,
     });
 
-    mockService.validatePlacement.mockReturnValue({ success: false, reason: "INVALID_POSITION" });
-    mockController.handleHoverPreview();
+    mockValidation.validatePlacement.mockReturnValue({ success: false, reason: "OUT_OF_BOUNDS" });
+    mockShipPlacementController.handleHoverPreview(mockButton, human);
 
-    expect(mockService.validatePlacement).toHaveBeenCalled();
-    expect(consoleWarnSpy).toHaveBeenCalledWith("Placement failed: INVALID_POSITION");
-    expect(mockUi.highlightCells).toHaveBeenCalledWith(
+    expect(consoleWarnSpy).toHaveBeenCalledWith("Placement failed: OUT_OF_BOUNDS");
+    expect(mockShipPlacementUI.highlightCells).toHaveBeenCalledWith(
       false,
-      expect.objectContaining({ length: 2, orientation: "horizontal", start: expect.objectContaining({ x: 0, y: 0 }) })
+      expect.objectContaining({ length: 2, orientation: "horizontal", start: expect.objectContaining({ x: 9, y: 9 }) })
     );
   });
 
   test("early return if ship invalid input", () => {
-    mockUi.getCoordinates.mockReturnValue({ x: 0, y: 0 });
-    mockUi.getOrientation.mockReturnValue("horizontal");
-    mockUi.getShipSelection.mockReturnValue(null);
+    mockShipPlacementUI.getCoordinates.mockReturnValue({ x: 0, y: 0 });
+    mockShipPlacementUI.getOrientation.mockReturnValue("horizontal");
+    mockShipPlacementUI.getShipSelection.mockReturnValue(null);
 
-    mockController.handleHoverPreview();
+    mockShipPlacementController.handleHoverPreview(mockButton, human);
 
     expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid input for ship placement");
-    expect(mockService.validatePlacement).not.toHaveBeenCalled();
-    expect(mockUi.highlightCells).not.toHaveBeenCalled();
+    expect(mockValidation.validatePlacement).not.toHaveBeenCalled();
+    expect(mockShipPlacementUI.highlightCells).not.toHaveBeenCalled();
   });
 
   test("early return if orientation invalid input", () => {
-    mockUi.getCoordinates.mockReturnValue({ x: 0, y: 0 });
-    mockUi.getOrientation.mockReturnValue(null);
-    mockUi.getShipSelection.mockReturnValue({
+    mockShipPlacementUI.getCoordinates.mockReturnValue({ x: 0, y: 0 });
+    mockShipPlacementUI.getOrientation.mockReturnValue(null);
+    mockShipPlacementUI.getShipSelection.mockReturnValue({
       element: `<option value="2" data-ship-name="Patrol Boat">Patrol Boat (2)</option>`,
       length: 2,
     });
 
-    mockController.handleHoverPreview();
+    mockShipPlacementController.handleHoverPreview(mockButton, human);
 
     expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid input for ship placement");
-    expect(mockService.validatePlacement).not.toHaveBeenCalled();
-    expect(mockUi.highlightCells).not.toHaveBeenCalled();
+    expect(mockValidation.validatePlacement).not.toHaveBeenCalled();
+    expect(mockShipPlacementUI.highlightCells).not.toHaveBeenCalled();
   });
 
   test("early return if coordinates invalid input", () => {
-    mockUi.getCoordinates.mockReturnValue(null);
-    mockUi.getOrientation.mockReturnValue("horizontal");
-    mockUi.getShipSelection.mockReturnValue({
+    mockShipPlacementUI.getCoordinates.mockReturnValue(null);
+    mockShipPlacementUI.getOrientation.mockReturnValue("horizontal");
+    mockShipPlacementUI.getShipSelection.mockReturnValue({
       element: `<option value="2" data-ship-name="Patrol Boat">Patrol Boat (2)</option>`,
       length: 2,
     });
 
-    mockController.handleHoverPreview();
+    mockShipPlacementController.handleHoverPreview(mockButton, human);
 
     expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid input for ship placement");
-    expect(mockService.validatePlacement).not.toHaveBeenCalled();
-    expect(mockUi.highlightCells).not.toHaveBeenCalled();
+    expect(mockValidation.validatePlacement).not.toHaveBeenCalled();
+    expect(mockShipPlacementUI.highlightCells).not.toHaveBeenCalled();
   });
 });
 
 describe("handleMouseOutPreview", () => {
   test("call clearHighlight", () => {
-    mockController.handleMouseOutPreview();
-    expect(mockUi.clearHighlight).toHaveBeenCalled();
+    mockShipPlacementController.handleMouseOutPreview();
+    expect(mockShipPlacementUI.clearHighlight).toHaveBeenCalled();
   });
 });
