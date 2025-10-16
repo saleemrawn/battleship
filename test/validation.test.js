@@ -1,38 +1,69 @@
+jest.mock("../src/js/domain/placement/strategies");
+
+import createPlayer from "../src/js/player";
+import { getPlacementStrategy } from "../src/js/domain/placement/strategies";
+import { validatePlacement } from "../src/js/domain/placement/validation";
+
+let human;
+let mockStrategy;
+let mockPlacement;
+let mockValidate;
+
+beforeEach(() => {
+  human = createPlayer(1, "Player");
+  mockPlacement = { start: { x: 0, y: 0 }, length: 2, orientation: "horizontal" };
+  mockStrategy = {
+    calculatePositions: jest.fn(),
+    isWithinBounds: jest.fn(),
+  };
+  mockValidate = { isValidPlacement: jest.fn() };
+
+  getPlacementStrategy.mockReturnValue(mockStrategy);
+});
+
 describe("validatePlacement", () => {
   test("returns false if placement is out of bounds", () => {
     mockStrategy.isWithinBounds.mockReturnValue(false);
     mockStrategy.calculatePositions.mockReturnValue([{ x: 0, y: 0 }]);
 
-    const result = mockService.validatePlacement(mockPlayer, mockPlacement);
+    const result = validatePlacement(human, mockPlacement);
 
+    expect(result).toEqual({ success: false, reason: "OUT_OF_BOUNDS" });
     expect(getPlacementStrategy).toHaveBeenCalledWith("horizontal");
     expect(mockStrategy.isWithinBounds).toHaveBeenCalledWith({ x: 0, y: 0 }, 2, 10);
-    expect(result).toEqual({ success: false, reason: "OUT_OF_BOUNDS" });
+    expect(mockValidate.isValidPlacement).not.toHaveBeenCalledWith(expect.any(Array), expect.any(Array));
   });
 
   test("returns false if placement is invalid position", () => {
-    mockStrategy.isWithinBounds.mockReturnValue(true);
-    mockValidator.isValidPlacement.mockReturnValue(false);
-    mockStrategy.calculatePositions.mockReturnValue([{ x: 0, y: 0 }]);
+    human.gameboard.placeShip(0, 0, 2, "horizontal");
 
-    const result = mockService.validatePlacement(mockPlayer, mockPlacement);
+    mockStrategy.isWithinBounds.mockReturnValue(true);
+    mockStrategy.calculatePositions.mockReturnValue([
+      [0, 1],
+      [0, 2],
+    ]);
+
+    const result = validatePlacement(human, mockPlacement);
 
     expect(result).toEqual({ success: false, reason: "INVALID_POSITION" });
     expect(getPlacementStrategy).toHaveBeenCalledWith("horizontal");
     expect(mockStrategy.isWithinBounds).toHaveBeenCalledWith({ x: 0, y: 0 }, 2, 10);
-    expect(mockValidator.isValidPlacement).toHaveBeenCalledWith(expect.any(Array), expect.any(Array));
+    expect(mockValidate.isValidPlacement).not.toHaveBeenCalledWith(expect.any(Array), expect.any(Array));
   });
 
   test("returns true if ship placement is valid", () => {
     mockStrategy.isWithinBounds.mockReturnValue(true);
-    mockValidator.isValidPlacement.mockReturnValue(true);
-    mockStrategy.calculatePositions.mockReturnValue([{ x: 0, y: 0 }]);
+    mockValidate.isValidPlacement.mockReturnValue(true);
+    mockStrategy.calculatePositions.mockReturnValue([
+      [0, 1],
+      [0, 2],
+    ]);
 
-    const result = mockService.validatePlacement(mockPlayer, mockPlacement);
+    const result = validatePlacement(human, mockPlacement);
 
-    expect(result).toEqual({ success: true });
+    expect(result).toEqual({ success: true, positions: expect.any(Array) });
     expect(getPlacementStrategy).toHaveBeenCalledWith("horizontal");
     expect(mockStrategy.isWithinBounds).toHaveBeenCalledWith({ x: 0, y: 0 }, 2, 10);
-    expect(mockValidator.isValidPlacement).toHaveBeenCalledWith(expect.any(Array), expect.any(Array));
+    expect(mockValidate.isValidPlacement).not.toHaveBeenCalledWith(expect.any(Array), expect.any(Array));
   });
 });
