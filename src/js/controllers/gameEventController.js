@@ -7,6 +7,14 @@ export function createGameEventController(dependencies) {
   let visited = [];
 
   return {
+    get visited() {
+      return visited;
+    },
+
+    get activeTimeouts() {
+      return activeTimeouts;
+    },
+
     handleGameSetup(human) {
       gameboardUI.renderGameboard(human);
       formsUI.renderShipForm();
