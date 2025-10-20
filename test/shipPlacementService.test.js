@@ -26,10 +26,10 @@ describe("placeShip", () => {
     expect(human.gameboard.placeShip).not.toHaveBeenCalled();
   });
 
-  test.skip("returns true if ship placement successful", () => {
-    const result = mockService.placeShip(mockPlayer, mockValidPlacement);
+  test("returns true if ship placement successful", () => {
+    const result = mockService.placeShip(human, mockValidPlacement);
 
     expect(result).toEqual({ success: true });
-    expect(mockPlayer.gameboard.placeShip).toHaveBeenCalledWith(0, 0, 2, "horizontal");
+    expect(human.gameboard.placeShip).toHaveBeenCalledWith(0, 0, 2, "horizontal");
   });
 });
