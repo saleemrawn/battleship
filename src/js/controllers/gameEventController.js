@@ -6,41 +6,6 @@ export function createGameEventController(dependencies) {
   let activeTimeouts = [];
   let visited = [];
 
-  const resetVisited = () => {
-    visited = [];
-  };
-
-  const clearTimeouts = () => {
-    for (const id of activeTimeouts) {
-      clearTimeout(id);
-    }
-
-    activeTimeouts = [];
-  };
-
-  const resetPlayer = (player) => {
-    if (!player) {
-      console.error("Invalid player");
-      return;
-    }
-
-    player.gameboard.board = Array(10)
-      .fill(null)
-      .map(() => Array(10).fill(null));
-    player.gameboard.missedShots = [];
-  };
-
-  const checkGameWinner = (player, opponent) => {
-    if (opponent.gameboard.checkAllShipsSunk() === true) {
-      handleGameOverEvent(player);
-    }
-  };
-
-  const handleGameOverEvent = (player) => {
-    modalUI.addGameOverModal(player);
-    modalUI.showModal();
-  };
-
   return {
     handleGameSetup(human) {
       gameboardUI.renderGameboard(human);
@@ -62,7 +27,7 @@ export function createGameEventController(dependencies) {
       gameboardUI.disableButton(button);
       gameboardUI.showMissedShots(computer);
       gameboardUI.disableGameboard(computer);
-      checkGameWinner(human, computer);
+      this.checkGameWinner(human, computer);
     },
 
     handleComputerEvent(human, computer) {
@@ -88,7 +53,7 @@ export function createGameEventController(dependencies) {
           gameboardUI.showHitMark(boardButton);
         }
 
-        checkGameWinner(computer, human);
+        this.checkGameWinner(computer, human);
         gameboardUI.showMissedShots(human);
         gameboardUI.enableGameboard(computer);
       }, 2500);
@@ -97,13 +62,48 @@ export function createGameEventController(dependencies) {
     },
 
     handlePlayAgainEvent(human, computer) {
-      resetPlayer(human);
-      resetPlayer(computer);
-      resetVisited();
-      clearTimeouts();
+      this.resetPlayer(human);
+      this.resetPlayer(computer);
+      this.resetVisited();
+      this.clearTimeouts();
       gameboardUI.clearGameboards();
       this.handleGameSetup(human);
       modalUI.closeModal();
+    },
+
+    resetVisited() {
+      visited = [];
+    },
+
+    clearTimeouts() {
+      for (const id of activeTimeouts) {
+        clearTimeout(id);
+      }
+
+      activeTimeouts = [];
+    },
+
+    resetPlayer(player) {
+      if (!player) {
+        console.error("Invalid player");
+        return;
+      }
+
+      player.gameboard.board = Array(10)
+        .fill(null)
+        .map(() => Array(10).fill(null));
+      player.gameboard.missedShots = [];
+    },
+
+    checkGameWinner(player, opponent) {
+      if (opponent.gameboard.checkAllShipsSunk() === true) {
+        this.handleGameOverEvent(player);
+      }
+    },
+
+    handleGameOverEvent(player) {
+      modalUI.addGameOverModal(player);
+      modalUI.showModal();
     },
   };
 }
