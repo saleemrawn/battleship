@@ -1,0 +1,27 @@
+input[type="radio"] {
+  appearance: none;
+  background-color: var(--blue-gray-600);
+  margin: 0;
+  font-family: inherit;
+  color: var(--blue-gray-100);
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--full-border-radius);
+  border: 0.0625rem solid var(--blue-gray-300);
+  display: grid;
+  place-content: center;
+}
+
+input[type="radio"]::before {
+  content: "";
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: var(--full-border-radius);
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1rem 1rem var(--blue-gray-50);
+}
+
+input[type="radio"]:checked::before {
+  transform: scale(1);
+}
