@@ -51,7 +51,7 @@ export function createGameEventController(dependencies) {
       visited.push([x, y]);
 
       const boardButton = document.querySelector(
-        `.board-square[data-player-id="${human.id}"][data-x="${x}"][data-y="${y}"]`
+        `.board-button[data-player-id="${human.id}"][data-x="${x}"][data-y="${y}"]`
       );
 
       const id = setTimeout(() => {

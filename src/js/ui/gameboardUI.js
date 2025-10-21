@@ -56,7 +56,7 @@ export function createGameboardUI() {
           row
             .map(
               (elem, j) =>
-                `<button class="board-square" data-player-id="${player.id}" data-x="${j}" data-y="${i}"></button>`
+                `<button class="board-button" data-player-id="${player.id}" data-x="${j}" data-y="${i}"></button>`
             )
             .join("")
         )
@@ -68,12 +68,12 @@ export function createGameboardUI() {
     },
 
     enableGameboard(player) {
-      const buttons = document.querySelectorAll(`.board-square[data-player-id="${player.id}"]`);
+      const buttons = document.querySelectorAll(`.board-button[data-player-id="${player.id}"]`);
       buttons.forEach((button) => button.removeAttribute("disabled"));
     },
 
     disableGameboard(player) {
-      const buttons = document.querySelectorAll(`.board-square[data-player-id="${player.id}"]`);
+      const buttons = document.querySelectorAll(`.board-button[data-player-id="${player.id}"]`);
       buttons.forEach((button) => button.setAttribute("disabled", ""));
     },
 
@@ -89,7 +89,7 @@ export function createGameboardUI() {
     showMissedShots(player) {
       player.gameboard.missedShots.forEach((coord) => {
         document.querySelector(
-          `.board-square[data-player-id="${player.id}"][data-x="${coord[1]}"][data-y="${coord[0]}"]`
+          `.board-button[data-player-id="${player.id}"][data-x="${coord[1]}"][data-y="${coord[0]}"]`
         ).innerHTML = `<span class="mdi--checkbox-blank-circle-outline"></span>`;
       });
     },

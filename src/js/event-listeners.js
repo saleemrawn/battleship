@@ -4,23 +4,23 @@ import { shipPlacementController } from ".";
 export function loadEventListeners(human, computer) {
   window.addEventListener("load", () => gameEventController.handleGameSetup(human));
 
-  addGlobalEventListener("click", `.board-square[data-player-id="2"]`, (event) =>
+  addGlobalEventListener("click", `.board-button[data-player-id="2"]`, (event) =>
     gameEventController.handlePlayerEvent(human, computer, event)
   );
 
-  addGlobalEventListener("mouseup", `.board-square[data-player-id="2"]`, () => {
+  addGlobalEventListener("mouseup", `.board-button[data-player-id="2"]`, () => {
     gameEventController.handleComputerEvent(human, computer);
   });
 
-  addGlobalEventListener("click", `.board-square[data-player-id="1"]`, (event) =>
+  addGlobalEventListener("click", `.board-button[data-player-id="1"]`, (event) =>
     shipPlacementController.handleAddShip(event, human, computer)
   );
 
-  addGlobalEventListener("mouseover", `.board-square[data-player-id="1"]`, (event) =>
+  addGlobalEventListener("mouseover", `.board-button[data-player-id="1"]`, (event) =>
     shipPlacementController.handleHoverPreview(event, human)
   );
 
-  addGlobalEventListener("mouseout", `.board-square[data-player-id="1"]`, () =>
+  addGlobalEventListener("mouseout", `.board-button[data-player-id="1"]`, () =>
     shipPlacementController.handleMouseOutPreview()
   );
 

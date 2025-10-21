@@ -50,7 +50,7 @@ export function createShipPlacementUI(config = {}) {
       for (let i = 0; i < length; i++) {
         const x = orientation === "horizontal" ? start.x + i : start.x;
         const y = orientation === "vertical" ? start.y + i : start.y;
-        const selector = `.board-square[data-player-id="${playerId}"][data-x="${x}"][data-y="${y}"]`;
+        const selector = `.board-button[data-player-id="${playerId}"][data-x="${x}"][data-y="${y}"]`;
         const cell = document.querySelector(selector);
 
         if (cell) {
@@ -62,7 +62,7 @@ export function createShipPlacementUI(config = {}) {
     },
 
     clearHighlight() {
-      const boardSquares = document.querySelectorAll(".board-square");
+      const boardSquares = document.querySelectorAll(".board-button");
       boardSquares.forEach((sq) => {
         sq.classList.remove("ship-valid", "ship-invalid");
       });
@@ -74,7 +74,7 @@ export function createShipPlacementUI(config = {}) {
         for (let j = 0; j < board[i].length; j++) {
           if (board[i][j] !== null) {
             let button = document.querySelector(
-              `.board-square[data-player-id="${player.id}"][data-x="${j}"][data-y="${i}"]`
+              `.board-button[data-player-id="${player.id}"][data-x="${j}"][data-y="${i}"]`
             );
             button.classList.add("ship");
           }

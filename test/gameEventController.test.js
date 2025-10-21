@@ -170,7 +170,7 @@ describe("handleComputerEvent", () => {
 
     expect(mockGameboardUI.showHitMark).toHaveBeenCalledTimes(1);
     expect(document.querySelector).toHaveBeenCalledWith(
-      `.board-square[data-player-id="${human.id}"][data-x="5"][data-y="5"]`
+      `.board-button[data-player-id="${human.id}"][data-x="5"][data-y="5"]`
     );
 
     jest.useRealTimers();
