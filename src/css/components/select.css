@@ -2,6 +2,6 @@ select {
   background-color: var(--blue-gray-600);
   border-radius: var(--full-border-radius);
   border: none;
-  padding: 0.5rem 0.75rem;
+  padding: 0.75rem;
   color: var(--blue-gray-50);
 }
