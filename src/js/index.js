@@ -34,7 +34,7 @@ export const gameEventController = createGameEventController({
 });
 
 function init() {
-  let human = createPlayer(1, "Player");
+  let human = createPlayer(1, "Human");
   let computer = createPlayer(2, "Computer");
   renderHeader();
   loadEventListeners(human, computer);
