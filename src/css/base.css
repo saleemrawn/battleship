@@ -7,6 +7,10 @@
 body {
   margin: auto;
   background-color: var(--blue-gray-900);
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: max-content 1fr;
+  gap: 4rem;
 }
 
 h1,
