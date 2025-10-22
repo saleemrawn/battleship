@@ -7,6 +7,7 @@ import { createGameboardUI } from "./ui/gameboardUI";
 import createPlayer from "./player";
 import { createFormsUI } from "./ui/formsUI";
 import { createModalUI } from "./ui/modalUI";
+import renderHeader from "./ui/header";
 import { loadEventListeners } from "./event-listeners";
 import "../css/main.css";
 
@@ -35,6 +36,7 @@ export const gameEventController = createGameEventController({
 function init() {
   let human = createPlayer(1, "Player");
   let computer = createPlayer(2, "Computer");
+  renderHeader();
   loadEventListeners(human, computer);
 }
 

@@ -1,0 +1,28 @@
+header {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: 3rem;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background-color: var(--blue-gray-600);
+  margin: 1rem 1rem 0 1rem;
+  border-radius: var(--full-border-radius);
+}
+
+header img {
+  width: auto;
+  height: 100%;
+}
+
+.utility-buttons {
+  align-self: center;
+}
+
+.new-game-button {
+  background-color: var(--blue-gray-900);
+}
+
+.new-game-button::before {
+  content: "\002B";
+  padding-right: 0.5rem;
+}
