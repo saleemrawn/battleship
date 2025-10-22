@@ -1,4 +1,4 @@
-import { getPlacementStrategy } from "../src/domain/placement/strategies";
+import { getPlacementStrategy } from "../src/js/domain/placement/strategies";
 
 describe("getPlacementStrategy", () => {
   test("throws error for unknown orientation", () => {
