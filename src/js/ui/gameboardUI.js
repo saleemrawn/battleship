@@ -33,6 +33,7 @@ export function createGameboardUI() {
       container.insertAdjacentHTML("beforeend", html);
       this.renderGameboardAlphabet(`.player-container[data-player-id="${player.id}"]`);
       this.renderGameboardNumbers(`.player-container[data-player-id="${player.id}"]`);
+      this.renderPlayerName(`.player-container[data-player-id="${player.id}"]`, player);
     },
 
     enableGameboard(player) {
@@ -101,6 +102,20 @@ export function createGameboardUI() {
 
       const boardNumbers = document.querySelector(`${selector} .board-numbers`);
       boardNumbers.insertAdjacentHTML("beforeend", html);
+    },
+
+    renderPlayerName(selector, player) {
+      if (!selector) {
+        console.error(`Invalid selector: ${selector}`);
+        return;
+      }
+
+      const container = document.querySelector(selector);
+      const html = `
+        <div class="board-player-name">${player.name}</div>
+      `;
+
+      container.insertAdjacentHTML("beforeend", html);
     },
   };
 }

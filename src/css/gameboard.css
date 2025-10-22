@@ -53,6 +53,13 @@
   justify-items: flex-end;
 }
 
+.board-player-name {
+  grid-area: 4 / 2 / 5 / 4;
+  text-align: center;
+  font-weight: var(--font-bold);
+  margin-top: 0.5rem;
+}
+
 .letter,
 .number {
   font-weight: var(--font-bold);
