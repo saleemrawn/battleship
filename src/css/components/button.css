@@ -4,7 +4,6 @@ button {
   padding: 0.5rem 1rem;
   background-color: var(--blue-gray-600);
   font-size: inherit;
-  transition: 0.2s all ease-in;
 }
 
 button:hover {
