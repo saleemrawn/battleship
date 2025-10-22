@@ -1,0 +1,54 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 75rem;
+  margin: auto;
+  background-color: var(--blue-gray-900);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+button,
+div {
+  font-family: var(--primary-font);
+  color: var(--blue-gray-50);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-top: 0;
+}
+
+main {
+  display: grid;
+  grid-template-columns: repeat(2, 30rem);
+  grid-template-rows: 1fr;
+  gap: 4rem;
+  justify-content: center;
+}
+
+a:hover,
+button:hover,
+select:hover,
+input[type="radio"]:hover {
+  cursor: pointer;
+}
+
+.hide {
+  display: none;
+}
