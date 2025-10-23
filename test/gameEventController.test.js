@@ -48,6 +48,7 @@ beforeEach(() => {
     showHitMark: jest.fn(),
     showMissedShots: jest.fn(),
     clearGameboards: jest.fn(),
+    toggleTurnIndicator: jest.fn(),
   };
 
   mockShipPlacementUI = {
@@ -72,11 +73,12 @@ beforeEach(() => {
 });
 
 describe("handleGameSetup", () => {
-  test("calls renderGameboard, renderShipForm, renderGameboardShips", () => {
-    mockGameEventController.handleGameSetup(human);
+  test("calls renderGameboard, renderShipForm, renderGameboardShips, toggleTurnIndicator", () => {
+    mockGameEventController.handleGameSetup(human, computer);
 
     expect(mockGameboardUI.renderGameboard).toHaveBeenCalledWith(human);
     expect(mockFormsUI.renderShipForm).toHaveBeenCalled();
+    expect(mockGameboardUI.toggleTurnIndicator).toHaveBeenCalledWith(computer);
     expect(mockShipPlacementUI.renderGameboardShips).toHaveBeenCalledWith(human);
   });
 });

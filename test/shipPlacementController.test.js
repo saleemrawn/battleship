@@ -51,6 +51,7 @@ beforeEach(() => {
     showHitMark: jest.fn(),
     showMissedShots: jest.fn(),
     clearGameboards: jest.fn(),
+    toggleTurnIndicator: jest.fn(),
   };
 
   mockShipPlacementUI = {
@@ -106,6 +107,7 @@ describe("handleAddShip", () => {
     expect(mockFormsUI.hideShipForm).toHaveBeenCalled();
     expect(mockGameboardUI.disableGameboard).toHaveBeenCalledWith(human);
     expect(mockGameboardUI.renderGameboard).toHaveBeenCalledWith(computer);
+    expect(mockGameboardUI.toggleTurnIndicator).toHaveBeenCalledWith(human);
     expect(mockGameboardGeneratorService.generateRandomGameboard).toHaveBeenCalledWith(computer);
     expect(mockShipPlacementUI.renderGameboardShips).toHaveBeenCalledWith(computer);
   });
@@ -131,6 +133,7 @@ describe("handleAddShip", () => {
     expect(mockFormsUI.hideShipForm).not.toHaveBeenCalled();
     expect(mockGameboardUI.disableGameboard).not.toHaveBeenCalledWith(human);
     expect(mockGameboardUI.renderGameboard).not.toHaveBeenCalledWith(computer);
+    expect(mockGameboardUI.toggleTurnIndicator).not.toHaveBeenCalledWith(human);
     expect(mockGameboardGeneratorService.generateRandomGameboard).not.toHaveBeenCalledWith(computer);
     expect(mockShipPlacementUI.renderGameboardShips).not.toHaveBeenCalledWith(computer);
   });
@@ -159,6 +162,7 @@ describe("handleAddShip", () => {
     expect(mockFormsUI.hideShipForm).not.toHaveBeenCalled();
     expect(mockGameboardUI.disableGameboard).not.toHaveBeenCalledWith(human);
     expect(mockGameboardUI.renderGameboard).not.toHaveBeenCalledWith(computer);
+    expect(mockGameboardUI.toggleTurnIndicator).not.toHaveBeenCalledWith(human);
     expect(mockGameboardGeneratorService.generateRandomGameboard).not.toHaveBeenCalledWith(computer);
     expect(mockShipPlacementUI.renderGameboardShips).not.toHaveBeenCalledWith(computer);
   });
@@ -176,6 +180,7 @@ describe("handleAddShip", () => {
     expect(mockFormsUI.hideShipForm).not.toHaveBeenCalled();
     expect(mockGameboardUI.disableGameboard).not.toHaveBeenCalledWith(human);
     expect(mockGameboardUI.renderGameboard).not.toHaveBeenCalledWith(computer);
+    expect(mockGameboardUI.toggleTurnIndicator).not.toHaveBeenCalledWith(human);
     expect(mockGameboardGeneratorService.generateRandomGameboard).not.toHaveBeenCalledWith(computer);
     expect(mockShipPlacementUI.renderGameboardShips).not.toHaveBeenCalledWith(computer);
   });
@@ -196,6 +201,7 @@ describe("handleAddShip", () => {
     expect(mockFormsUI.hideShipForm).not.toHaveBeenCalled();
     expect(mockGameboardUI.disableGameboard).not.toHaveBeenCalledWith(human);
     expect(mockGameboardUI.renderGameboard).not.toHaveBeenCalledWith(computer);
+    expect(mockGameboardUI.toggleTurnIndicator).not.toHaveBeenCalledWith(human);
     expect(mockGameboardGeneratorService.generateRandomGameboard).not.toHaveBeenCalledWith(computer);
     expect(mockShipPlacementUI.renderGameboardShips).not.toHaveBeenCalledWith(computer);
   });
@@ -216,6 +222,7 @@ describe("handleAddShip", () => {
     expect(mockFormsUI.hideShipForm).not.toHaveBeenCalled();
     expect(mockGameboardUI.disableGameboard).not.toHaveBeenCalledWith(human);
     expect(mockGameboardUI.renderGameboard).not.toHaveBeenCalledWith(computer);
+    expect(mockGameboardUI.toggleTurnIndicator).not.toHaveBeenCalledWith(human);
     expect(mockGameboardGeneratorService.generateRandomGameboard).not.toHaveBeenCalledWith(computer);
     expect(mockShipPlacementUI.renderGameboardShips).not.toHaveBeenCalledWith(computer);
   });
