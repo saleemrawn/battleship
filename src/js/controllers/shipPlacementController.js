@@ -8,7 +8,7 @@ export function createShipPlacementController(dependencies) {
   };
 
   return {
-    handleAddShip(button, player, computer) {
+    handleAddShip(button, human, computer) {
       const ship = shipPlacementUI.getShipSelection();
       const orientation = shipPlacementUI.getOrientation();
       const coordinates = shipPlacementUI.getCoordinates(button);
@@ -18,21 +18,21 @@ export function createShipPlacementController(dependencies) {
         return;
       }
 
-      const result = service.placeShip(player, { start: coordinates, length: ship.length, orientation });
+      const result = service.placeShip(human, { start: coordinates, length: ship.length, orientation });
 
       if (!result.success) {
         handlePlacementError(result.reason);
         return;
       }
 
-      shipPlacementUI.renderGameboardShips(player);
+      shipPlacementUI.renderGameboardShips(human);
       shipPlacementUI.removeShipOption(ship.element);
 
       if (shipPlacementUI.getRemainingShips() === 0) {
         formsUI.hideShipForm();
-        gameboardUI.disableGameboard(player);
+        gameboardUI.disableGameboard(human);
         gameboardUI.renderGameboard(computer);
-        gameboardUI.toggleTurnIndicator(player);
+        gameboardUI.toggleTurnIndicator(human);
         generator.generateRandomGameboard(computer);
         shipPlacementUI.renderGameboardShips(computer);
       }
