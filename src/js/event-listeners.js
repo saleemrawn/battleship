@@ -2,7 +2,7 @@ import { gameEventController } from ".";
 import { shipPlacementController } from ".";
 
 export function loadEventListeners(human, computer) {
-  window.addEventListener("load", () => gameEventController.handleGameSetup(human));
+  window.addEventListener("load", () => gameEventController.handleGameSetup(human, computer));
 
   addGlobalEventListener("click", `.new-game-button`, () => gameEventController.handlePlayAgainEvent(human, computer));
 

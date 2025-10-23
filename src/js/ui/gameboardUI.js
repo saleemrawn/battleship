@@ -117,5 +117,19 @@ export function createGameboardUI() {
 
       container.insertAdjacentHTML("beforeend", html);
     },
+
+    toggleTurnIndicator(player) {
+      const playerOneContainer = document.querySelector(`.player-container[data-player-id="1"]`);
+      const playerTwoContainer = document.querySelector(`.player-container[data-player-id="2"]`);
+
+      if (player.id === 1) {
+        playerOneContainer.classList.remove("current-turn");
+        playerTwoContainer?.classList.add("current-turn");
+        return;
+      }
+
+      playerOneContainer.classList.add("current-turn");
+      playerTwoContainer?.classList.remove("current-turn");
+    },
   };
 }

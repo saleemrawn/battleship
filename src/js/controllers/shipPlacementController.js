@@ -32,6 +32,7 @@ export function createShipPlacementController(dependencies) {
         formsUI.hideShipForm();
         gameboardUI.disableGameboard(player);
         gameboardUI.renderGameboard(computer);
+        gameboardUI.toggleTurnIndicator(player);
         generator.generateRandomGameboard(computer);
         shipPlacementUI.renderGameboardShips(computer);
       }

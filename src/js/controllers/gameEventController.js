@@ -15,8 +15,9 @@ export function createGameEventController(dependencies) {
       return activeTimeouts;
     },
 
-    handleGameSetup(human) {
+    handleGameSetup(human, computer) {
       gameboardUI.renderGameboard(human);
+      gameboardUI.toggleTurnIndicator(computer);
       formsUI.renderShipForm();
       shipPlacementUI.renderGameboardShips(human);
     },
@@ -35,6 +36,8 @@ export function createGameEventController(dependencies) {
       gameboardUI.disableButton(button);
       gameboardUI.showMissedShots(computer);
       gameboardUI.disableGameboard(computer);
+      gameboardUI.toggleTurnIndicator(computer);
+
       this.checkGameWinner(human, computer);
     },
 
@@ -64,6 +67,7 @@ export function createGameEventController(dependencies) {
         this.checkGameWinner(computer, human);
         gameboardUI.showMissedShots(human);
         gameboardUI.enableGameboard(computer);
+        gameboardUI.toggleTurnIndicator(human);
       }, 2500);
 
       activeTimeouts.push(id);
