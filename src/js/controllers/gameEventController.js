@@ -79,7 +79,7 @@ export function createGameEventController(dependencies) {
       this.resetVisited();
       this.clearTimeouts();
       gameboardUI.clearGameboards();
-      this.handleGameSetup(human);
+      this.handleGameSetup(human, computer);
       modalUI.closeModal();
     },
 
