@@ -34,7 +34,6 @@ export function createShipPlacementController(dependencies) {
         gameboardUI.renderGameboard(computer);
         gameboardUI.toggleTurnIndicator(human);
         generator.generateRandomGameboard(computer);
-        shipPlacementUI.renderGameboardShips(computer);
       }
     },
 

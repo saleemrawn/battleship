@@ -109,7 +109,6 @@ describe("handleAddShip", () => {
     expect(mockGameboardUI.renderGameboard).toHaveBeenCalledWith(computer);
     expect(mockGameboardUI.toggleTurnIndicator).toHaveBeenCalledWith(human);
     expect(mockGameboardGeneratorService.generateRandomGameboard).toHaveBeenCalledWith(computer);
-    expect(mockShipPlacementUI.renderGameboardShips).toHaveBeenCalledWith(computer);
   });
 
   test("should not call removeShipOption, hide ship form, set up computer gameboard when placeShip is unsuccessful", () => {
