@@ -245,7 +245,7 @@ describe("handlePlayAgainEvent", () => {
     expect(spyResetPlayer).toHaveBeenCalledWith(computer);
     expect(spyResetVisited).toHaveBeenCalled();
     expect(spyClearTimeouts).toHaveBeenCalled();
-    expect(spyHandleGameSetup).toHaveBeenCalledWith(human);
+    expect(spyHandleGameSetup).toHaveBeenCalledWith(human, computer);
     expect(mockGameboardUI.clearGameboards).toHaveBeenCalled();
     expect(mockModalUI.closeModal).toHaveBeenCalled();
   });
